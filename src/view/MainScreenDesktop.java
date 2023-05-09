@@ -20,7 +20,7 @@ public class MainScreenDesktop {
 	}
 	
 	public static void showMenu() {
-		String option = JOptionPane.showInputDialog("Bem vindo ao sistema de SASF!\nEscolha a opcao desejada:\n1-Cadastrar Usuario\n2-Listar Usuarios\n3-Excluir Usuario\n4-Sair","Sua opcao");		
+		String option = JOptionPane.showInputDialog("Bem vindo ao sistema!\nEscolha a opcao desejada:\n1-Cadastrar Usuario\n2-Listar Usuarios\n3-Excluir Usuario\n4-Sair","Sua opcao");
 		
 		MainScreenDesktop main = new MainScreenDesktop();
 		
@@ -28,12 +28,7 @@ public class MainScreenDesktop {
 	}
 	
 	public void readUserInput(String option) {
-		try {
-			userManager = new UserManager();
-		} catch (InfraException e) {
-			String option2 = JOptionPane.showInputDialog(e.getMessage());		
-
-		}
+		userManager = userManager.getInstance();
 		int choice = Integer.parseInt(option);
 		boolean checkedLogin = false;
 		boolean checkedPassword = false;
@@ -67,8 +62,10 @@ public class MainScreenDesktop {
 					JOptionPane.showMessageDialog(null, e.getMessage() );
 					checkedLogin = true;
 					checkedPassword = false;
+				} catch (InfraException e) {
+					e.printStackTrace();
 				}
-				
+
 			}
 			showMenu();
 			break;
