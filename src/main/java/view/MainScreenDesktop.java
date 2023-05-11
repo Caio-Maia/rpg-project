@@ -1,15 +1,14 @@
-package view;
+package main.java.view;
 
-import infra.InfraException;
-import util.LoginInvalidException;
-import util.PasswordInvalidException;
-
-import java.util.Iterator;
+import main.java.business.control.UserManager;
+import main.java.business.model.Usuario;
+import main.java.infra.InfraException;
+import main.java.util.LoginInvalidException;
+import main.java.util.PasswordInvalidException;
 
 import javax.swing.JOptionPane;
+import java.util.Iterator;
 
-import business.control.UserManager;
-import business.model.User;
 
 public class MainScreenDesktop {
 	
@@ -72,12 +71,12 @@ public class MainScreenDesktop {
 		
 		case 2:
 			String usuarios = "";
-			Iterator<User> users;
+			Iterator<Usuario> users;
 			try {
 				users = this.userManager.getAllClients().values().iterator();
 				while (users.hasNext()) {
-					User user = users.next();
-					usuarios = usuarios + "[ Login: " + user.getLogin() + " || Senha: " + user.getSenha() + " ]" + "\n";
+					Usuario usuario = users.next();
+					usuarios = usuarios + "[ Login: " + usuario.getLogin() + " || Senha: " + usuario.getSenha() + " ]" + "\n";
 				}
 				JOptionPane.showMessageDialog(null, usuarios );
 			} catch (InfraException e) {

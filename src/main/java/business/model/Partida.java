@@ -1,4 +1,4 @@
-package business.model;
+package main.java.business.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,10 +8,10 @@ public class Partida implements Serializable {
     private static final long serialVersionUID = -3409171233621036055L;
 
     private String nome;
-    private User mestre;
+    private Usuario mestre;
     private List<Personagem> personagens;
 
-    public Partida(String nome, User criador) {
+    public Partida(String nome, Usuario criador) {
         this.nome = nome;
         this.mestre = criador;
         this.personagens = new ArrayList<>();
@@ -21,7 +21,7 @@ public class Partida implements Serializable {
         return nome;
     }
 
-    public User getMestre() {
+    public Usuario getMestre() {
         return mestre;
     }
 
@@ -29,7 +29,7 @@ public class Partida implements Serializable {
         return personagens;
     }
 
-    public void adicionarPersonagem(User criador, String nome) {
+    public void adicionarPersonagem(Usuario criador, String nome) {
         if (criador != this.mestre && personagens.size() > 0) {
             System.out.println("Você já adicionou um personagem nesta partida.");
         }

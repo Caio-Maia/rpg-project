@@ -1,18 +1,18 @@
-package business.control;
+package main.java.business.control;
 
-import infra.InfraException;
-import infra.PersistenceManager;
-import util.LoginInvalidException;
-import util.PasswordInvalidException;
-import util.UserValidador;
+
+import main.java.business.model.Usuario;
+import main.java.infra.InfraException;
+import main.java.infra.PersistenceManager;
+import main.java.util.LoginInvalidException;
+import main.java.util.PasswordInvalidException;
+import main.java.util.UserValidador;
 import java.util.Map;
-
-import business.model.User;
 
 
 public class UserManager {
 
-	private Map<String, User> users;
+	private Map<String, Usuario> users;
 	PersistenceManager persistence;
 	private static volatile UserManager instance;
 	
@@ -20,7 +20,7 @@ public class UserManager {
 		persistence = persistence.getInstance();
 	}
 
-	public UserManager getInstance() {
+	public static UserManager getInstance() {
 		UserManager result = instance;
 		if(result != null) {
 			return result;
@@ -38,14 +38,14 @@ public class UserManager {
 		UserValidador.validateName(args[0]);
 		UserValidador.validatePassword(args[1]);
 		
-		users.put(args[0], new User(args[0],args[1]));
+		users.put(args[0], new Usuario(args[0],args[1]));
 		persistence.saveData("user.bin", users);
 		
 	}
 	
-	public Map<String, User> getAllClients() throws InfraException {
+	public Map<String, Usuario> getAllClients() throws InfraException {
 		try {
-			Map<String, User> mylist = persistence.loadData("user.bin");
+			Map<String, Usuario> mylist = persistence.loadData("user.bin");
 			return mylist;
 
 		} catch (NullPointerException ex){

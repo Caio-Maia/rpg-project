@@ -1,4 +1,4 @@
-package infra;
+package main.java.infra;
 
 public class InfraException extends Exception {
 

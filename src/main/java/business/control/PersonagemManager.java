@@ -1,10 +1,11 @@
-package business.control;
+package main.java.business.control;
 
-import business.model.Partida;
-import business.model.Personagem;
-import business.model.User;
-import infra.InfraException;
-import infra.PersistenceManager;
+import main.java.business.model.Partida;
+import main.java.business.model.Personagem;
+import main.java.business.model.Usuario;
+import main.java.infra.InfraException;
+import main.java.infra.PersistenceManager;
+
 
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class PersonagemManager {
         }
     }
 
-    public void addPersonagem(User usuario, String nome, Partida partida) throws InfraException {
+    public void addPersonagem(Usuario usuario, String nome, Partida partida) throws InfraException {
         personagens.put(nome, new Personagem(usuario, nome, partida));
         persistence.saveData("personagem.bin", personagens);
     }

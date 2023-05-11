@@ -1,6 +1,6 @@
 
 
-package util;
+package main.java.util;
 
 public class PasswordInvalidException extends UserException {
 
