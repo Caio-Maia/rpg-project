@@ -1,11 +1,12 @@
-/*package main.java.business.control;
+package main.java.business.control;
 
 import main.java.business.model.Partida;
 import main.java.business.model.Personagem;
 import main.java.business.model.Usuario;
+import main.java.infra.DatabaseStrategy;
 import main.java.infra.InfraException;
 import main.java.infra.PersistenceManager;
-
+import main.java.infra.PersonagemDatabaseStrategy;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -14,11 +15,14 @@ public class PersonagemManager {
     PersistenceManager persistence;
     private static volatile PersonagemManager instance;
 
+    private static DatabaseStrategy strategy;
+
     private PersonagemManager() throws SQLException {
-        persistence = persistence.getInstance();
+        strategy = new PersonagemDatabaseStrategy();
+        persistence = persistence.getInstance(strategy);
     }
 
-    public PersonagemManager getInstance() throws SQLException {
+    public static PersonagemManager getInstance() throws SQLException {
         PersonagemManager result = instance;
         if(result != null) {
             return result;
@@ -31,14 +35,14 @@ public class PersonagemManager {
         }
     }
 
-    public void addPersonagem(Usuario usuario, String nome, Partida partida) throws InfraException, SQLException {
-        persistence.saveData(new Personagem(usuario, nome, partida));
+    public void addPersonagem(Integer usuario, String nome, Integer partida) throws InfraException, SQLException {
+        persistence.saveData(strategy,new Personagem(usuario, nome, partida));
     }
 
-    public Map<Integer, Partida> getAllPersonagens() throws InfraException {
+    public Map<Integer, Personagem> getAllPersonagens() throws InfraException {
 
         try {
-            Map<Integer, Partida> mylist = persistence.loadData();
+            Map<Integer, Personagem> mylist = persistence.loadData(strategy);
             return mylist;
 
         } catch (NullPointerException ex){
@@ -50,4 +54,3 @@ public class PersonagemManager {
         }
     }
 }
-*/

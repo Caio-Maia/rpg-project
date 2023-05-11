@@ -11,17 +11,18 @@ public interface DatabaseStrategy {
 
     void createTableIfNotExists(Connection conn) throws SQLException;
 
-    String getSaveQuery();
-
-    String getLoadQuery();
-
     void setSaveParameters(PreparedStatement stmt, Object data) throws SQLException;
 
     <T> Map<Integer, T> loadData(ResultSet rs) throws SQLException, IOException, ClassNotFoundException;
+
+    void createObjectUpdate(PreparedStatement stmt, Object newData) throws SQLException;
 
     String getDeleteQuery();
 
     String getUpdateQuery();
 
-    void createObjectUpdate(PreparedStatement stmt, Object newData) throws SQLException;
+    String getSaveQuery();
+
+    String getLoadQuery();
+
 }

@@ -1,8 +1,10 @@
-/*package main.java.business.control;
+package main.java.business.control;
 
 import main.java.business.model.Partida;
 import main.java.business.model.Usuario;
+import main.java.infra.DatabaseStrategy;
 import main.java.infra.InfraException;
+import main.java.infra.PartidaDatabaseStrategy;
 import main.java.infra.PersistenceManager;
 
 import java.sql.SQLException;
@@ -12,11 +14,13 @@ public class PartidaManager {
     PersistenceManager persistence;
     private static volatile PartidaManager instance;
 
+    private static DatabaseStrategy strategy;
     private PartidaManager() throws SQLException {
-        persistence = persistence.getInstance();
+        strategy = new PartidaDatabaseStrategy();
+        persistence = persistence.getInstance(strategy);
     }
 
-    public PartidaManager getInstance() throws SQLException {
+    public static PartidaManager getInstance() throws SQLException {
         PartidaManager result = instance;
         if(result != null) {
             return result;
@@ -29,13 +33,13 @@ public class PartidaManager {
         }
     }
 
-    public void addPartida(String nome, Usuario usuario) throws InfraException, SQLException {
-        persistence.saveData(new Partida(nome, usuario));
+    public void addPartida(String nome, Integer usuario) throws InfraException, SQLException {
+        persistence.saveData(strategy, new Partida(nome, usuario));
     }
 
     public Map<Integer, Partida> getAllPartidas() throws InfraException {
         try {
-            Map<Integer, Partida> mylist = persistence.loadData();
+            Map<Integer, Partida> mylist = persistence.loadData(strategy);
             return mylist;
 
         } catch (NullPointerException ex){
@@ -47,4 +51,3 @@ public class PartidaManager {
         }
     }
 }
-*/

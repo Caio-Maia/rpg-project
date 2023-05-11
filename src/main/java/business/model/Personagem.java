@@ -5,17 +5,25 @@ import java.io.Serializable;
 public class Personagem implements Serializable {
     private static final long serialVersionUID = -3409171233621036055L;
 
-    private Usuario criador;
+    private Integer id;
+    private Integer criador;
     private String nome;
-    private Partida partida;
+    private Integer partida;
 
-    public Personagem(Usuario criador, String nome, Partida partida) {
+    public Personagem(Integer criador, String nome, Integer partida) {
         this.criador = criador;
         this.nome = nome;
         this.partida = partida;
     }
 
-    public Usuario getCriador() {
+    public Personagem(Integer id,Integer criador, String nome, Integer partida) {
+        this.criador = criador;
+        this.nome = nome;
+        this.partida = partida;
+        this.id = id;
+    }
+
+    public Integer getCriador() {
         return criador;
     }
 
@@ -23,7 +31,11 @@ public class Personagem implements Serializable {
         return nome;
     }
 
-    public Partida getPartida() {
+    public Integer getPartida() {
         return partida;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }
