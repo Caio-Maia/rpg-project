@@ -1,6 +1,7 @@
-package infra;
+package main.java.infra;
 
-import business.model.Usuario;
+import main.java.business.model.Usuario;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -54,4 +55,15 @@ public class UsuarioDatabaseStrategy implements DatabaseStrategy {
     public String getLoadQuery() {
         return "SELECT * FROM Usuarios";
     }
+    @Override
+    public String getDeleteQuery() {
+        return "DELETE FROM Usuarios WHERE id = ?";
+    }
+
+    @Override
+    public String getUpdateQuery() {
+        return "UPDATE Usuarios SET nome = ?, senha = ? WHERE id = ?";
+    }
+
+
 }

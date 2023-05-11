@@ -1,4 +1,4 @@
-package business.model;
+package main.java.business.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;

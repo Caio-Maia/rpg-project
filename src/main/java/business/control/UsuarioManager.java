@@ -1,16 +1,17 @@
-package business.control;
+package main.java.business.control;
 
-import business.model.Usuario;
-import infra.DatabaseStrategy;
-import infra.InfraException;
-import infra.PersistenceManager;
-import infra.UsuarioDatabaseStrategy;
-import util.LoginInvalidException;
-import util.PasswordInvalidException;
-import util.UserValidador;
+import main.java.business.model.Usuario;
+import main.java.infra.DatabaseStrategy;
+import main.java.infra.InfraException;
+import main.java.infra.PersistenceManager;
+import main.java.infra.UsuarioDatabaseStrategy;
+import main.java.util.LoginInvalidException;
+import main.java.util.PasswordInvalidException;
+import main.java.util.UserValidador;
 
 import java.sql.SQLException;
 import java.util.Map;
+;
 
 
 public class UsuarioManager {
@@ -41,7 +42,7 @@ public class UsuarioManager {
 		UserValidador.validateName(args[0]);
 		UserValidador.validatePassword(args[1]);
 
-		persistence.saveData(strategy,new Usuario(args[0],args[1]));
+		persistence.saveData(strategy, new Usuario(args[0],args[1]));
 		
 	}
 	

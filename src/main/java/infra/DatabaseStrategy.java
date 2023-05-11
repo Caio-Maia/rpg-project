@@ -1,11 +1,10 @@
-package infra;
+package main.java.infra;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
 public interface DatabaseStrategy {
@@ -19,4 +18,8 @@ public interface DatabaseStrategy {
     void setSaveParameters(PreparedStatement stmt, Object data) throws SQLException;
 
     <T> Map<Integer, T> loadData(ResultSet rs) throws SQLException, IOException, ClassNotFoundException;
+
+    String getDeleteQuery();
+
+    String getUpdateQuery();
 }

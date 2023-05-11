@@ -1,10 +1,10 @@
-package view;
+package main.java.view;
 
-import business.control.UsuarioManager;
-import business.model.Usuario;
-import infra.InfraException;
-import util.LoginInvalidException;
-import util.PasswordInvalidException;
+import main.java.business.control.UsuarioManager;
+import main.java.business.model.Usuario;
+import main.java.infra.InfraException;
+import main.java.util.LoginInvalidException;
+import main.java.util.PasswordInvalidException;
 
 import javax.swing.JOptionPane;
 import java.sql.SQLException;
