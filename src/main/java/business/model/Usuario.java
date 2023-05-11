@@ -1,6 +1,4 @@
-
-
-package main.java.business.model;
+package business.model;
 
 import java.io.Serializable;
 
@@ -8,7 +6,7 @@ import java.io.Serializable;
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = -3409171233621036055L;
 	
-	
+	private int id;
 	private String login, senha;
     
     public Usuario(String login, String senha) {
@@ -16,6 +14,21 @@ public class Usuario implements Serializable {
 		this.login = login;
 		this.senha = senha;
 	}
+
+    public Usuario(int id, String login, String senha) {
+        super();
+        this.login = login;
+        this.senha = senha;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getLogin() {
         return login;

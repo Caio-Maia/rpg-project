@@ -1,4 +1,4 @@
-package main.java.business.control;
+/*package main.java.business.control;
 
 import main.java.business.model.Partida;
 import main.java.business.model.Personagem;
@@ -7,18 +7,18 @@ import main.java.infra.InfraException;
 import main.java.infra.PersistenceManager;
 
 
+import java.sql.SQLException;
 import java.util.Map;
 
 public class PersonagemManager {
-    private Map<String, Personagem> personagens;
     PersistenceManager persistence;
     private static volatile PersonagemManager instance;
 
-    private PersonagemManager() {
+    private PersonagemManager() throws SQLException {
         persistence = persistence.getInstance();
     }
 
-    public PersonagemManager getInstance() {
+    public PersonagemManager getInstance() throws SQLException {
         PersonagemManager result = instance;
         if(result != null) {
             return result;
@@ -31,20 +31,23 @@ public class PersonagemManager {
         }
     }
 
-    public void addPersonagem(Usuario usuario, String nome, Partida partida) throws InfraException {
-        personagens.put(nome, new Personagem(usuario, nome, partida));
-        persistence.saveData("personagem.bin", personagens);
+    public void addPersonagem(Usuario usuario, String nome, Partida partida) throws InfraException, SQLException {
+        persistence.saveData(new Personagem(usuario, nome, partida));
     }
 
-    public Map<String, Partida> getAllPersonagens() throws InfraException {
+    public Map<Integer, Partida> getAllPersonagens() throws InfraException {
+
         try {
-            Map<String, Partida> mylist = persistence.loadData("personagem.bin");
+            Map<Integer, Partida> mylist = persistence.loadData();
             return mylist;
 
         } catch (NullPointerException ex){
             PersistenceManager.logger.severe(ex.getMessage());
             throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }
+*/

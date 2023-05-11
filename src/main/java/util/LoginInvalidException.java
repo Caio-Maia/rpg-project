@@ -1,6 +1,4 @@
-
-
-package main.java.util;
+package util;
 
 
 public class LoginInvalidException extends UserException {

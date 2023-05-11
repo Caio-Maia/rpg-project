@@ -1,22 +1,22 @@
-package main.java.business.control;
+/*package main.java.business.control;
 
 import main.java.business.model.Partida;
 import main.java.business.model.Usuario;
 import main.java.infra.InfraException;
 import main.java.infra.PersistenceManager;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 public class PartidaManager {
-    private Map<String, Partida> partidas;
     PersistenceManager persistence;
     private static volatile PartidaManager instance;
 
-    private PartidaManager() {
+    private PartidaManager() throws SQLException {
         persistence = persistence.getInstance();
     }
 
-    public PartidaManager getInstance() {
+    public PartidaManager getInstance() throws SQLException {
         PartidaManager result = instance;
         if(result != null) {
             return result;
@@ -29,20 +29,22 @@ public class PartidaManager {
         }
     }
 
-    public void addPartida(String nome, Usuario usuario) throws InfraException {
-        partidas.put(nome, new Partida(nome, usuario));
-        persistence.saveData("partida.bin", partidas);
+    public void addPartida(String nome, Usuario usuario) throws InfraException, SQLException {
+        persistence.saveData(new Partida(nome, usuario));
     }
 
-    public Map<String, Partida> getAllPartidas() throws InfraException {
+    public Map<Integer, Partida> getAllPartidas() throws InfraException {
         try {
-            Map<String, Partida> mylist = persistence.loadData("partida.bin");
+            Map<Integer, Partida> mylist = persistence.loadData();
             return mylist;
 
         } catch (NullPointerException ex){
             PersistenceManager.logger.severe(ex.getMessage());
             throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }
+*/

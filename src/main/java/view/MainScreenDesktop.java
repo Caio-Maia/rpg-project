@@ -1,24 +1,25 @@
-package main.java.view;
+package view;
 
-import main.java.business.control.UserManager;
-import main.java.business.model.Usuario;
-import main.java.infra.InfraException;
-import main.java.util.LoginInvalidException;
-import main.java.util.PasswordInvalidException;
+import business.control.UsuarioManager;
+import business.model.Usuario;
+import infra.InfraException;
+import util.LoginInvalidException;
+import util.PasswordInvalidException;
 
 import javax.swing.JOptionPane;
+import java.sql.SQLException;
 import java.util.Iterator;
 
 
 public class MainScreenDesktop {
 	
-	UserManager userManager;
+	UsuarioManager usuarioManager;
 	
-	public static void main (String[] args) {
+	public static void main (String[] args) throws SQLException {
 		showMenu();
 	}
 	
-	public static void showMenu() {
+	public static void showMenu() throws SQLException {
 		String option = JOptionPane.showInputDialog("Bem vindo ao sistema!\nEscolha a opcao desejada:\n1-Cadastrar Usuario\n2-Listar Usuarios\n3-Excluir Usuario\n4-Sair","Sua opcao");
 		
 		MainScreenDesktop main = new MainScreenDesktop();
@@ -26,8 +27,8 @@ public class MainScreenDesktop {
 		main.readUserInput(option);
 	}
 	
-	public void readUserInput(String option) {
-		userManager = userManager.getInstance();
+	public void readUserInput(String option) throws SQLException {
+		usuarioManager = usuarioManager.getInstance();
 		int choice = Integer.parseInt(option);
 		boolean checkedLogin = false;
 		boolean checkedPassword = false;
@@ -50,7 +51,7 @@ public class MainScreenDesktop {
 
 				try {
 					String [] args = {name, pass};
-					this.userManager.addUser(args);
+					this.usuarioManager.addUser(args);
 					JOptionPane.showMessageDialog(null, "Usuario adicionado com sucesso!");
 					break;
 				} catch (LoginInvalidException e) {
@@ -73,7 +74,7 @@ public class MainScreenDesktop {
 			String usuarios = "";
 			Iterator<Usuario> users;
 			try {
-				users = this.userManager.getAllClients().values().iterator();
+				users = this.usuarioManager.getAllClients().values().iterator();
 				while (users.hasNext()) {
 					Usuario usuario = users.next();
 					usuarios = usuarios + "[ Login: " + usuario.getLogin() + " || Senha: " + usuario.getSenha() + " ]" + "\n";
