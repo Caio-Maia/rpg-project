@@ -11,7 +11,6 @@ import main.java.util.UserValidador;
 
 import java.sql.SQLException;
 import java.util.Map;
-;
 
 
 public class UsuarioManager {
@@ -37,7 +36,7 @@ public class UsuarioManager {
 		}
 	}
 	
-	public void addUser(String [] args) throws LoginInvalidException, PasswordInvalidException, InfraException, SQLException {
+	public void addUsuario(String [] args) throws LoginInvalidException, PasswordInvalidException, InfraException, SQLException {
 		
 		UserValidador.validateName(args[0]);
 		UserValidador.validatePassword(args[1]);
@@ -59,6 +58,24 @@ public class UsuarioManager {
 			throw new RuntimeException(e);
 		}
 	}
-	
 
+	public void updateUsuario(int id, String [] args) throws LoginInvalidException, PasswordInvalidException {
+		UserValidador.validateName(args[0]);
+		UserValidador.validatePassword(args[1]);
+
+		try {
+			persistence.updateData(strategy, id, new Usuario(args[0],args[1]));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void deleteUsuario(int id) {
+		try {
+			persistence.deleteData(strategy, id);
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

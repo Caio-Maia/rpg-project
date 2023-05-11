@@ -20,7 +20,7 @@ public class MainScreenDesktop {
 	}
 	
 	public static void showMenu() throws SQLException {
-		String option = JOptionPane.showInputDialog("Bem vindo ao sistema!\nEscolha a opcao desejada:\n1-Cadastrar Usuario\n2-Listar Usuarios\n3-Excluir Usuario\n4-Sair","Sua opcao");
+		String option = JOptionPane.showInputDialog("Bem vindo ao sistema!\nEscolha a opcao desejada:\n1-Cadastrar Usuario\n2-Listar Usuarios\n3-Excluir Usuario\n4-Atualizar Usuario\n5-Sair","Sua opcao");
 		
 		MainScreenDesktop main = new MainScreenDesktop();
 		
@@ -51,7 +51,7 @@ public class MainScreenDesktop {
 
 				try {
 					String [] args = {name, pass};
-					this.usuarioManager.addUser(args);
+					this.usuarioManager.addUsuario(args);
 					JOptionPane.showMessageDialog(null, "Usuario adicionado com sucesso!");
 					break;
 				} catch (LoginInvalidException e) {
@@ -77,7 +77,7 @@ public class MainScreenDesktop {
 				users = this.usuarioManager.getAllClients().values().iterator();
 				while (users.hasNext()) {
 					Usuario usuario = users.next();
-					usuarios = usuarios + "[ Login: " + usuario.getLogin() + " || Senha: " + usuario.getSenha() + " ]" + "\n";
+					usuarios = usuarios +"[ ID: " + usuario.getId() + " || Login: " + usuario.getLogin() + " || Senha: " + usuario.getSenha() + " ]" + "\n";
 				}
 				JOptionPane.showMessageDialog(null, usuarios );
 			} catch (InfraException e) {
@@ -88,8 +88,46 @@ public class MainScreenDesktop {
 			showMenu();
 			break;
 		case 3:
+			String id = "";
+			id = JOptionPane.showInputDialog("ID do usuario:");
+			this.usuarioManager.deleteUsuario(Integer.parseInt(id));
+			showMenu();
 			break;
-	
+		case 4:
+			id = "";
+			id = JOptionPane.showInputDialog("ID do usuario:");
+
+			while (true) {
+				String name = "";
+				String pass = "";
+
+				if (!checkedLogin) {
+					name = JOptionPane.showInputDialog("Nome do usuario:");
+
+				}
+				if (!checkedPassword) {
+					pass = JOptionPane.showInputDialog("Senha do usuario:");
+
+				}
+
+				try {
+					String [] args = {name, pass};
+					this.usuarioManager.updateUsuario(Integer.parseInt(id), args);
+					JOptionPane.showMessageDialog(null, "Usuario atualizado com sucesso!");
+					break;
+				} catch (LoginInvalidException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage() );
+					checkedLogin = false;
+					checkedPassword = true;
+				} catch (PasswordInvalidException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage() );
+					checkedLogin = true;
+					checkedPassword = false;
+				}
+
+			}
+			showMenu();
+			break;
 		}
 	}
 }

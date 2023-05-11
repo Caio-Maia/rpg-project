@@ -27,7 +27,7 @@ public class UsuarioDatabaseStrategy implements DatabaseStrategy {
     }
 
     @Override
-    public <T> Map<Integer, T> loadData(ResultSet rs) throws SQLException, IOException, ClassNotFoundException {
+    public <T> Map<Integer, T> loadData(ResultSet rs) throws SQLException {
         Map<Integer, T> dataMap = new HashMap<>();
         while (rs.next()) {
             int id = rs.getInt("id");
@@ -37,13 +37,19 @@ public class UsuarioDatabaseStrategy implements DatabaseStrategy {
         return dataMap;
     }
 
-    private <T> T createObjectFromResultSet(ResultSet rs) throws SQLException, IOException, ClassNotFoundException {
+    private <T> T createObjectFromResultSet(ResultSet rs) throws SQLException  {
         int id = rs.getInt("id");
         String nome = rs.getString("nome");
         String senha = rs.getString("senha");
 
         T data = (T) new Usuario(id, nome, senha);
         return data;
+    }
+
+    public void createObjectUpdate(PreparedStatement stmt, Object data) throws SQLException {
+        Usuario usuario = (Usuario) data;
+        stmt.setString(1, usuario.getLogin());
+        stmt.setString(2, usuario.getSenha());
     }
 
     @Override
@@ -55,6 +61,7 @@ public class UsuarioDatabaseStrategy implements DatabaseStrategy {
     public String getLoadQuery() {
         return "SELECT * FROM Usuarios";
     }
+
     @Override
     public String getDeleteQuery() {
         return "DELETE FROM Usuarios WHERE id = ?";
@@ -64,6 +71,5 @@ public class UsuarioDatabaseStrategy implements DatabaseStrategy {
     public String getUpdateQuery() {
         return "UPDATE Usuarios SET nome = ?, senha = ? WHERE id = ?";
     }
-
 
 }

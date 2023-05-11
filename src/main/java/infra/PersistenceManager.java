@@ -60,4 +60,21 @@ public class PersistenceManager {
         }
         return dataMap;
     }
+
+    public void updateData(DatabaseStrategy strategy, int id, Object newData) throws SQLException {
+        String sql = strategy.getUpdateQuery();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            strategy.createObjectUpdate(stmt, newData);
+            stmt.setInt(stmt.getParameterMetaData().getParameterCount(), id);
+            stmt.executeUpdate();
+        }
+    }
+
+    public void deleteData(DatabaseStrategy strategy, int id) throws SQLException {
+        String sql = strategy.getDeleteQuery();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        }
+    }
 }

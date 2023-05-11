@@ -22,4 +22,6 @@ public interface DatabaseStrategy {
     String getDeleteQuery();
 
     String getUpdateQuery();
+
+    void createObjectUpdate(PreparedStatement stmt, Object newData) throws SQLException;
 }
