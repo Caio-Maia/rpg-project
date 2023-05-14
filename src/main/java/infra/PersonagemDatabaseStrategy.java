@@ -28,7 +28,7 @@ public class PersonagemDatabaseStrategy implements DatabaseStrategy{
     }
 
     @Override
-    public <T> Map<Integer, T> loadData(ResultSet rs) throws SQLException, IOException, ClassNotFoundException {
+    public <T> Map<Integer, T> loadData(ResultSet rs) throws SQLException {
         Map<Integer, T> dataMap = new HashMap<>();
         while (rs.next()) {
             int id = rs.getInt("id");

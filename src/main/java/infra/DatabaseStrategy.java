@@ -13,7 +13,7 @@ public interface DatabaseStrategy {
 
     void setSaveParameters(PreparedStatement stmt, Object data) throws SQLException;
 
-    <T> Map<Integer, T> loadData(ResultSet rs) throws SQLException, IOException, ClassNotFoundException;
+    <T> Map<Integer, T> loadData(ResultSet rs) throws SQLException;
 
     void createObjectUpdate(PreparedStatement stmt, Object newData) throws SQLException;
 

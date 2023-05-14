@@ -15,12 +15,12 @@ public class PartidaManager {
     private static volatile PartidaManager instance;
 
     private static DatabaseStrategy strategy;
-    private PartidaManager() throws SQLException {
+    private PartidaManager() {
         strategy = new PartidaDatabaseStrategy();
         persistence = persistence.getInstance(strategy);
     }
 
-    public static PartidaManager getInstance() throws SQLException {
+    public static PartidaManager getInstance() {
         PartidaManager result = instance;
         if(result != null) {
             return result;
@@ -33,21 +33,12 @@ public class PartidaManager {
         }
     }
 
-    public void addPartida(String nome, Integer usuario) throws InfraException, SQLException {
+    public void addPartida(String nome, Integer usuario) {
         persistence.saveData(strategy, new Partida(nome, usuario));
     }
 
     public Map<Integer, Partida> getAllPartidas() throws InfraException {
-        try {
-            Map<Integer, Partida> mylist = persistence.loadData(strategy);
-            return mylist;
-
-        } catch (NullPointerException ex){
-            PersistenceManager.logger.severe(ex.getMessage());
-            throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        Map<Integer, Partida> mylist = persistence.loadData(strategy);
+        return mylist;
     }
 }

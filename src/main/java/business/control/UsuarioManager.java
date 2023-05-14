@@ -2,14 +2,11 @@ package main.java.business.control;
 
 import main.java.business.model.Usuario;
 import main.java.infra.DatabaseStrategy;
-import main.java.infra.InfraException;
 import main.java.infra.PersistenceManager;
 import main.java.infra.UsuarioDatabaseStrategy;
 import main.java.util.LoginInvalidException;
 import main.java.util.PasswordInvalidException;
 import main.java.util.UserValidador;
-
-import java.sql.SQLException;
 import java.util.Map;
 
 
@@ -18,12 +15,12 @@ public class UsuarioManager {
 	private static volatile UsuarioManager instance;
 	private static DatabaseStrategy strategy;
 
-	private UsuarioManager() throws SQLException {
+	private UsuarioManager() {
 		strategy = new UsuarioDatabaseStrategy();
 		persistence = persistence.getInstance(strategy);
 	}
 
-	public static UsuarioManager getInstance() throws SQLException {
+	public static UsuarioManager getInstance() {
 		UsuarioManager result = instance;
 		if(result != null) {
 			return result;
@@ -36,7 +33,7 @@ public class UsuarioManager {
 		}
 	}
 	
-	public void addUsuario(String [] args) throws LoginInvalidException, PasswordInvalidException, InfraException, SQLException {
+	public void addUsuario(String [] args) throws LoginInvalidException, PasswordInvalidException {
 		
 		UserValidador.validateName(args[0]);
 		UserValidador.validatePassword(args[1]);
@@ -45,37 +42,18 @@ public class UsuarioManager {
 		
 	}
 	
-	public Map<Integer, Usuario> getAllClients() throws InfraException {
-		try {
-			Map<Integer, Usuario> mylist = persistence.loadData(strategy);
-			return mylist;
-
-		} catch (NullPointerException ex){
-			PersistenceManager.logger.severe(ex.getMessage());
-	        throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
-	           
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
+	public Map<Integer, Usuario> getAllClients() {
+		Map<Integer, Usuario> mylist = persistence.loadData(strategy);
+		return mylist;
 	}
 
 	public void updateUsuario(int id, String [] args) throws LoginInvalidException, PasswordInvalidException {
 		UserValidador.validateName(args[0]);
 		UserValidador.validatePassword(args[1]);
-
-		try {
-			persistence.updateData(strategy, id, new Usuario(args[0],args[1]));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		persistence.updateData(strategy, id, new Usuario(args[0],args[1]));
 	}
 
 	public void deleteUsuario(int id) {
-		try {
-			persistence.deleteData(strategy, id);
-
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
+		persistence.deleteData(strategy, id);
 	}
 }

@@ -1,7 +1,8 @@
 package main.java.infra;
 
-import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,23 +13,34 @@ import java.sql.SQLException;
 
 
 public class PersistenceManager {
+    private static Logger logger;
     private Connection conn;
     private DatabaseStrategy strategy;
     private static volatile PersistenceManager instance;
-    public static Logger logger = Logger.getLogger(PersistenceManager.class.getName());
+    private static String url = "jdbc:sqlite:database.db";
 
-    private PersistenceManager(DatabaseStrategy strategy) throws SQLException {
-        String url = "jdbc:sqlite:database.db";
-        conn = DriverManager.getConnection(url);
-        this.strategy = strategy;
-        createTableIfNotExists();
+    private PersistenceManager(DatabaseStrategy strategy) {
+        try {
+            conn = DriverManager.getConnection(url);
+            this.strategy = strategy;
+            createTableIfNotExists();
+            Runtime.getRuntime().addShutdownHook(new Thread(this::close));
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Erro ao criar conexão com o Banco de Dados", ex);
+            logger.log(Level.SEVERE, "Detalhes: " + ex.getMessage());
+        }
     }
 
     private void createTableIfNotExists() throws SQLException {
-        strategy.createTableIfNotExists(conn);
+        try {
+            strategy.createTableIfNotExists(conn);
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Erro ao criar a tabela.", ex);
+            logger.log(Level.SEVERE, "Detalhes da restrição violada: " + ex.getMessage());
+        }
     }
 
-    public static PersistenceManager getInstance(DatabaseStrategy str) throws SQLException {
+    public static PersistenceManager getInstance(DatabaseStrategy str) {
         PersistenceManager result = instance;
         if(result != null) {
             return result;
@@ -41,40 +53,62 @@ public class PersistenceManager {
         }
     }
 
-    public <T> void saveData(DatabaseStrategy strategy, T data) throws SQLException {
+    public <T> void saveData(DatabaseStrategy strategy, T data) {
         String sql = strategy.getSaveQuery();
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             strategy.setSaveParameters(stmt, data);
             stmt.executeUpdate();
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Erro ao tentar salvar dados", ex);
+            logger.log(Level.SEVERE, "Detalhes:" + ex.getMessage());
         }
     }
 
-    public <T> Map<Integer, T> loadData(DatabaseStrategy strategy) throws SQLException {
+    public <T> Map<Integer, T> loadData(DatabaseStrategy strategy) {
         String sql = strategy.getLoadQuery();
         Map<Integer, T> dataMap;
         try (PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             dataMap = strategy.loadData(rs);
-        } catch (IOException | ClassNotFoundException ex) {
-            throw new RuntimeException("Erro ao desserializar objeto", ex);
+        } catch (SQLException ex) {
+            dataMap = new HashMap<>();
+            logger.log(Level.SEVERE, "Erro ao tentar carregar dados do Banco", ex);
+            logger.log(Level.SEVERE, "Detalhes: " + ex.getMessage());
         }
         return dataMap;
     }
 
-    public void updateData(DatabaseStrategy strategy, int id, Object newData) throws SQLException {
+    public void updateData(DatabaseStrategy strategy, int id, Object newData) {
         String sql = strategy.getUpdateQuery();
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             strategy.createObjectUpdate(stmt, newData);
             stmt.setInt(stmt.getParameterMetaData().getParameterCount(), id);
             stmt.executeUpdate();
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Erro ao tentar atualizar os dados", ex);
+            logger.log(Level.SEVERE, "Detalhes:" + ex.getMessage());
         }
     }
 
-    public void deleteData(DatabaseStrategy strategy, int id) throws SQLException {
+    public void deleteData(DatabaseStrategy strategy, int id) {
         String sql = strategy.getDeleteQuery();
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Erro deletar informação", ex);
+            logger.log(Level.SEVERE, "Detalhes: " + ex.getMessage());
+        }
+    }
+
+    public void close() {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, "Erro ao fechar a conexão.", ex);
+                logger.log(Level.SEVERE, "Detalhes: " + ex.getMessage());
+            }
         }
     }
 }

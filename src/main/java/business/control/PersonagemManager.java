@@ -17,12 +17,12 @@ public class PersonagemManager {
 
     private static DatabaseStrategy strategy;
 
-    private PersonagemManager() throws SQLException {
+    private PersonagemManager() {
         strategy = new PersonagemDatabaseStrategy();
         persistence = persistence.getInstance(strategy);
     }
 
-    public static PersonagemManager getInstance() throws SQLException {
+    public static PersonagemManager getInstance() {
         PersonagemManager result = instance;
         if(result != null) {
             return result;
@@ -35,22 +35,12 @@ public class PersonagemManager {
         }
     }
 
-    public void addPersonagem(Integer usuario, String nome, Integer partida) throws InfraException, SQLException {
+    public void addPersonagem(Integer usuario, String nome, Integer partida) {
         persistence.saveData(strategy,new Personagem(usuario, nome, partida));
     }
 
     public Map<Integer, Personagem> getAllPersonagens() throws InfraException {
-
-        try {
-            Map<Integer, Personagem> mylist = persistence.loadData(strategy);
-            return mylist;
-
-        } catch (NullPointerException ex){
-            PersistenceManager.logger.severe(ex.getMessage());
-            throw new InfraException("Erro de persistencia, contacte o admin ou tente mais tarde");
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        Map<Integer, Personagem> mylist = persistence.loadData(strategy);
+        return mylist;
     }
 }
