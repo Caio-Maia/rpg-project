@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 
 public class PersistenceManager {
-    private static Logger logger;
+    private static final Logger logger = Logger.getLogger(PersistenceManager.class.getName());;
     private Connection conn;
     private DatabaseStrategy strategy;
     private static volatile PersistenceManager instance;

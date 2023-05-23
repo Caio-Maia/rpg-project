@@ -1,5 +1,6 @@
 package main.java.view;
 
+import main.java.business.control.LoginManager;
 import main.java.business.control.PartidaManager;
 import main.java.business.control.PersonagemManager;
 import main.java.business.control.UsuarioManager;
@@ -7,6 +8,7 @@ import main.java.business.model.Partida;
 import main.java.business.model.Personagem;
 import main.java.business.model.Usuario;
 import main.java.infra.InfraException;
+import main.java.util.CredentialsInvalidException;
 import main.java.util.LoginInvalidException;
 import main.java.util.PasswordInvalidException;
 
@@ -16,6 +18,7 @@ import java.util.Iterator;
 
 public class MainScreenDesktop {
 
+    LoginManager loginManager;
     UsuarioManager usuarioManager;
     PersonagemManager personagemManager;
     PartidaManager partidaManager;
@@ -25,7 +28,7 @@ public class MainScreenDesktop {
     }
 
     public static void showMenu() {
-        String option = JOptionPane.showInputDialog("Bem vindo ao sistema!\nEscolha a opcao desejada:\n1-Cadastrar Usuario\n2-Listar Usuarios\n3-Excluir Usuario\n4-Atualizar Usuario\n5-Lista partidas\n6-Lista Personagens", "Sua opcao");
+        String option = JOptionPane.showInputDialog("Bem vindo ao sistema!\nEscolha a opcao desejada:\n1-Cadastrar Usuario\n2-Listar Usuarios\n3-Excluir Usuario\n4-Atualizar Usuario\n5-Lista partidas\n6-Lista Personagens\n7-Realizar Login\n8-Gerar Relatorio HTML\n9-Gerar Relatorio PDF\n10-Realizar Logout", "Sua opcao");
 
         MainScreenDesktop main = new MainScreenDesktop();
         if(option != null) {
@@ -39,6 +42,7 @@ public class MainScreenDesktop {
     }
 
     public void readUserInput(String option) {
+        loginManager = LoginManager.getInstance();
         usuarioManager = usuarioManager.getInstance();
         personagemManager = personagemManager.getInstance();
         partidaManager = partidaManager.getInstance();
@@ -167,6 +171,39 @@ public class MainScreenDesktop {
                 } catch (InfraException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage());
                 }
+                showMenu();
+                break;
+
+            case 7:
+                if(this.loginManager.isLogged()) {
+                    JOptionPane.showMessageDialog(null, "Você já está logado");
+                } else {
+                    String login = "";
+                    String senha = "";
+                    login = JOptionPane.showInputDialog("Nome do usuario:");
+                    senha = JOptionPane.showInputDialog("Senha do usuario:");
+
+                    try {
+                        String[] args = {login, senha};
+                        this.loginManager.login(login, senha);
+                        JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
+                    } catch (CredentialsInvalidException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
+                }
+                showMenu();
+                break;
+            case 8:
+                this.loginManager.gerarRelatorioHtml();
+                showMenu();
+                break;
+            case 9:
+                this.loginManager.gerarRelatorioPDF();
+                showMenu();
+                break;
+            case 10:
+                this.loginManager.logout();
+                JOptionPane.showMessageDialog(null, "Logout realizado com sucesso!");
                 showMenu();
                 break;
 
