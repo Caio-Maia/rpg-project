@@ -25,7 +25,7 @@ public class PartidaManager {
         if(result != null) {
             return result;
         }
-        synchronized (PersistenceManager.class) {
+        synchronized (PartidaManager.class) {
             if (instance == null) {
                 instance = new PartidaManager();
             }

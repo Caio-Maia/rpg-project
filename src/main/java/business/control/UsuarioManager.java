@@ -25,7 +25,7 @@ public class UsuarioManager {
 		if(result != null) {
 			return result;
 		}
-		synchronized (PersistenceManager.class) {
+		synchronized (UsuarioManager.class) {
 			if (instance == null) {
 				instance = new UsuarioManager();
 			}

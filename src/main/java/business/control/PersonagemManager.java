@@ -27,7 +27,7 @@ public class PersonagemManager {
         if(result != null) {
             return result;
         }
-        synchronized (PersistenceManager.class) {
+        synchronized (PersonagemManager.class) {
             if (instance == null) {
                 instance = new PersonagemManager();
             }
