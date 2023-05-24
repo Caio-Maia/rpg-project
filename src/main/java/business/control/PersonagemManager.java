@@ -3,10 +3,7 @@ package main.java.business.control;
 import main.java.business.model.Partida;
 import main.java.business.model.Personagem;
 import main.java.business.model.Usuario;
-import main.java.infra.DatabaseStrategy;
-import main.java.infra.InfraException;
-import main.java.infra.PersistenceManager;
-import main.java.infra.PersonagemDatabaseStrategy;
+import main.java.infra.*;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -17,9 +14,12 @@ public class PersonagemManager {
 
     private static DatabaseStrategy strategy;
 
+    private static ConnectionFactory connectionFactory;
+
     private PersonagemManager() {
         strategy = new PersonagemDatabaseStrategy();
-        persistence = persistence.getInstance(strategy);
+        connectionFactory = SQLiteConnectionFactory.getInstance();
+        persistence = persistence.getInstance(connectionFactory,strategy);
     }
 
     public static PersonagemManager getInstance() {

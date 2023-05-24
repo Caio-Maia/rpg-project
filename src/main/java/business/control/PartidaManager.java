@@ -2,10 +2,7 @@ package main.java.business.control;
 
 import main.java.business.model.Partida;
 import main.java.business.model.Usuario;
-import main.java.infra.DatabaseStrategy;
-import main.java.infra.InfraException;
-import main.java.infra.PartidaDatabaseStrategy;
-import main.java.infra.PersistenceManager;
+import main.java.infra.*;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -13,11 +10,12 @@ import java.util.Map;
 public class PartidaManager {
     PersistenceManager persistence;
     private static volatile PartidaManager instance;
-
+     private static ConnectionFactory connectionFactory;
     private static DatabaseStrategy strategy;
     private PartidaManager() {
         strategy = new PartidaDatabaseStrategy();
-        persistence = persistence.getInstance(strategy);
+        connectionFactory =SQLiteConnectionFactory.getInstance();
+        persistence = persistence.getInstance(connectionFactory,strategy);
     }
 
     public static PartidaManager getInstance() {

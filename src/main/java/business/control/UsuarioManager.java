@@ -1,9 +1,7 @@
 package main.java.business.control;
 
 import main.java.business.model.Usuario;
-import main.java.infra.DatabaseStrategy;
-import main.java.infra.PersistenceManager;
-import main.java.infra.UsuarioDatabaseStrategy;
+import main.java.infra.*;
 import main.java.util.LoginInvalidException;
 import main.java.util.PasswordInvalidException;
 import main.java.util.UserValidador;
@@ -15,9 +13,12 @@ public class UsuarioManager {
 	private static volatile UsuarioManager instance;
 	private static DatabaseStrategy strategy;
 
+	private static ConnectionFactory connectionFactory;
+
 	private UsuarioManager() {
 		strategy = new UsuarioDatabaseStrategy();
-		persistence = persistence.getInstance(strategy);
+		connectionFactory = SQLiteConnectionFactory.getInstance();
+		persistence = persistence.getInstance(connectionFactory,strategy);
 	}
 
 	public static UsuarioManager getInstance() {
