@@ -1,8 +1,7 @@
 package main.java.view;
 
 import main.java.business.model.Usuario;
-import main.java.util.LoginInvalidException;
-import main.java.util.PasswordInvalidException;
+
 
 import java.util.Iterator;
 
