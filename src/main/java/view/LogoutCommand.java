@@ -9,6 +9,7 @@ public class LogoutCommand implements Command{
 
     @Override
     public void execute() {
-
+        this.mainScreenDesktop.loginManager.logout();
+        this.mainScreenDesktop.realizarLogout();
     }
 }

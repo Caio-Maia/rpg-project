@@ -7,13 +7,7 @@ import main.java.business.control.UsuarioManager;
 import main.java.business.model.Partida;
 import main.java.business.model.Personagem;
 import main.java.business.model.Usuario;
-import main.java.infra.InfraException;
-import main.java.util.CredentialsInvalidException;
-import main.java.util.LoginInvalidException;
-import main.java.util.PasswordInvalidException;
-
 import javax.swing.JOptionPane;
-import java.io.Console;
 import java.util.Iterator;
 
 
@@ -62,8 +56,6 @@ public class MainScreenDesktop {
         partidaManager = partidaManager.getInstance();
 
         int choice = Integer.parseInt(option);
-        boolean checkedLogin = false;
-        boolean checkedPassword = false;
         switch (choice) {
 
             case 1:
@@ -225,7 +217,7 @@ public class MainScreenDesktop {
 
     public void realizarLogin(Boolean sucesso, String mensagemErro){
         if (sucesso){
-        JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
         } else {
             JOptionPane.showMessageDialog(null, mensagemErro);
         }
@@ -239,6 +231,5 @@ public class MainScreenDesktop {
 
     public void realizarLogout(){
         JOptionPane.showMessageDialog(null, "Logout Realizado com Sucesso!");
-        showMenu();
     }
 }
