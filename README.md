@@ -4,4 +4,4 @@ Link para a documentação do projeto: https://docs.google.com/document/d/1Pbvfa
 
 ## Diagrama de Classes
 
-![diagrama](https://raw.githubusercontent.com/Caio-Maia/rpg-project/master/Diagram%20de%20Classe.jpg)
+![diagrama](https://raw.githubusercontent.com/Caio-Maia/rpg-project/master/Diagrama_de_Classes.drawio.png)
