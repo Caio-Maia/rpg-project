@@ -4,6 +4,7 @@ import main.java.business.model.Usuario;
 
 
 import java.util.Iterator;
+import java.util.Map;
 
 public class ListarUsuariosCommand implements Command{
     private MainScreenDesktop mainScreen;
@@ -13,8 +14,8 @@ public class ListarUsuariosCommand implements Command{
 
     @Override
     public void execute() {
-        Iterator<Usuario> users;
-        users = this.mainScreen.usuarioManager.getAllClients().values().iterator();
+        Map<Integer, Usuario> users;
+        users = this.mainScreen.usuarioManager.getAllClients();
         this.mainScreen.listarUsuarios(users);
     }
 }

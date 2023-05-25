@@ -7,8 +7,10 @@ import main.java.business.control.UsuarioManager;
 import main.java.business.model.Partida;
 import main.java.business.model.Personagem;
 import main.java.business.model.Usuario;
-import javax.swing.JOptionPane;
+
+import javax.swing.*;
 import java.util.Iterator;
+import java.util.Map;
 
 
 public class MainScreenDesktop {
@@ -148,13 +150,11 @@ public class MainScreenDesktop {
         }
     }
 
-    public void listarUsuarios(Iterator<Usuario> users){
-        String usuarios = "";
-        while (users.hasNext()) {
-            Usuario usuario = users.next();
-            usuarios = usuarios + "[ ID: " + usuario.getId() + " || Login: " + usuario.getLogin() + " || Senha: " + usuario.getSenha() + " ]" + "\n";
-        }
-        JOptionPane.showMessageDialog(null, usuarios);
+    public void listarUsuarios(Map<Integer, Usuario> users){
+        ListAdapter listAdapter = new ListAdapter(users);
+        JScrollPane barraRolagem = new JScrollPane(listAdapter.criaListaUsuario());
+
+        JOptionPane.showMessageDialog(null, barraRolagem, "Personagens", JOptionPane.INFORMATION_MESSAGE);
         showMenu();
     }
 
@@ -184,31 +184,24 @@ public class MainScreenDesktop {
             showMenu();
         }
     }
-    public void listarPartidas(Iterator<Partida> partidas, Boolean sucesso, String mensagemErro){
-        String partida = "";
+    public void listarPartidas(Map<Integer, Partida> partidas, Boolean sucesso, String mensagemErro){
+        ListAdapter listAdapter = new ListAdapter(partidas);
+        JScrollPane barraRolagem = new JScrollPane(listAdapter.criaListaPartida());
 
         if (sucesso) {
-            while (partidas.hasNext()) {
-                Partida part = partidas.next();
-                partida = partida + "[ ID: " + part.getId() + " || Nome: " + part.getNome() + " || ID mestre: " + part.getMestre() + " ]" + "\n";
-            }
-
-            JOptionPane.showMessageDialog(null, partida);
+            JOptionPane.showMessageDialog(null, barraRolagem, "Partidas", JOptionPane.INFORMATION_MESSAGE);
         }else {
             JOptionPane.showMessageDialog(null, mensagemErro);
         }
             showMenu();
     }
 
-    public void listarPersonagens(Iterator<Personagem> personagens, Boolean sucesso, String mensagemErro){
-        String personagem = "";
+    public void listarPersonagens(Map<Integer, Personagem> personagens, Boolean sucesso, String mensagemErro){
+        ListAdapter listAdapter = new ListAdapter(personagens);
+        JScrollPane barraRolagem = new JScrollPane(listAdapter.criaListaPersonagem());
 
-        if(sucesso) {
-            while (personagens.hasNext()) {
-                Personagem person = personagens.next();
-                personagem = personagem + "[ ID: " + person.getId() + " || Nome: " + person.getNome() + " || ID criador: " + person.getCriador() + " ID Partida: " + person.getPartida() + " ]" + "\n";
-            }
-            JOptionPane.showMessageDialog(null, personagem);
+        if (sucesso) {
+            JOptionPane.showMessageDialog(null, barraRolagem, "Personagens", JOptionPane.INFORMATION_MESSAGE);
         }else {
             JOptionPane.showMessageDialog(null, mensagemErro);
         }

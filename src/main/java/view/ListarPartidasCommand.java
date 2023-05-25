@@ -4,6 +4,7 @@ import main.java.business.model.Partida;
 import main.java.infra.InfraException;
 
 import java.util.Iterator;
+import java.util.Map;
 
 public class ListarPartidasCommand implements Command {
     private MainScreenDesktop mainScreen;
@@ -13,11 +14,11 @@ public class ListarPartidasCommand implements Command {
 
     @Override
     public void execute() {
-        Iterator<Partida> partidas = null;
-        Boolean sucesso = true;
+        Map<Integer, Partida> partidas = null;
         String mensagemErro = "";
+        boolean sucesso = true;
         try {
-            partidas = this.mainScreen.partidaManager.getAllPartidas().values().iterator();
+            partidas = this.mainScreen.partidaManager.getAllPartidas();
         } catch (InfraException e) {
             sucesso = false;
             mensagemErro = e.getMessage();
