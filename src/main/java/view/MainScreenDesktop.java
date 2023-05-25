@@ -154,7 +154,7 @@ public class MainScreenDesktop {
         ListAdapter listAdapter = new ListAdapter(users);
         JScrollPane barraRolagem = new JScrollPane(listAdapter.criaListaUsuario());
 
-        JOptionPane.showMessageDialog(null, barraRolagem, "Personagens", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, barraRolagem, "Usuarios", JOptionPane.INFORMATION_MESSAGE);
         showMenu();
     }
 
