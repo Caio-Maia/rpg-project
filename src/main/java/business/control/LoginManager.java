@@ -12,16 +12,16 @@ import java.util.logging.Logger;
 public class LoginManager {
 
     private static volatile LoginManager instance;
-    PersistenceManager persistence;
+    private PersistenceManager persistence;
     private static DatabaseStrategy strategy;
     private Integer usuarioLogado;
     private boolean logged;
     private static final Logger logger = Logger.getLogger(LoginManager.class.getName());;
     private Map<Integer, Integer> acessos;
-    Map<Integer, Usuario> usuarios;
-    RelatorioAcessoUsuarios relatorio;
+    private Map<Integer, Usuario> usuarios;
+    private RelatorioAcessoUsuarios relatorio;
 
-    ConnectionFactory connectionFactory;
+    private ConnectionFactory connectionFactory;
 
     private LoginManager() {
         strategy = new UsuarioDatabaseStrategy();

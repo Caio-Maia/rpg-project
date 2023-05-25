@@ -15,7 +15,7 @@ public class SQLiteConnectionFactory implements ConnectionFactory{
     private SQLiteConnectionFactory() {
     }
 
-    public static ConnectionFactory getInstance() {
+    public static SQLiteConnectionFactory getInstance() {
 
         SQLiteConnectionFactory result = instance;
         if (result != null) {

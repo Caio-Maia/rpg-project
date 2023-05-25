@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class RelatorioAcessoUsuariosHTML extends RelatorioAcessoUsuarios {
 
-    PrintWriter writer;
+    private PrintWriter writer;
 
     @Override
     protected void registrarCabecalho() {

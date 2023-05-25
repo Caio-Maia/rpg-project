@@ -9,7 +9,7 @@ import java.util.Map;
 
 
 public class UsuarioManager {
-	PersistenceManager persistence;
+	private PersistenceManager persistence;
 	private static volatile UsuarioManager instance;
 	private static DatabaseStrategy strategy;
 

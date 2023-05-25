@@ -8,9 +8,9 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public class PartidaManager {
-    PersistenceManager persistence;
+    private PersistenceManager persistence;
     private static volatile PartidaManager instance;
-     private static ConnectionFactory connectionFactory;
+    private static ConnectionFactory connectionFactory;
     private static DatabaseStrategy strategy;
     private PartidaManager() {
         strategy = new PartidaDatabaseStrategy();

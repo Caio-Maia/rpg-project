@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public class PersonagemManager {
-    PersistenceManager persistence;
+    private PersistenceManager persistence;
     private static volatile PersonagemManager instance;
 
     private static DatabaseStrategy strategy;
