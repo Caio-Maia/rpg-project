@@ -2,8 +2,7 @@ package main.java.view;
 
 import main.java.business.model.Personagem;
 import main.java.infra.InfraException;
-
-import java.util.Iterator;
+import java.util.Map;
 
 public class ListarPersonagensCommand implements Command{
     private MainScreenDesktop mainScreenDesktop;
@@ -14,11 +13,11 @@ public class ListarPersonagensCommand implements Command{
 
     @Override
     public void execute() {
-        Iterator<Personagem> personagens = null;
+        Map<Integer, Personagem> personagens = null;
         Boolean sucesso = true;
         String mensagemErro = "";
         try {
-            personagens = this.mainScreenDesktop.personagemManager.getAllPersonagens().values().iterator();
+            personagens = this.mainScreenDesktop.personagemManager.getAllPersonagens();
         } catch (InfraException e) {
             sucesso = false;
             mensagemErro = e.getMessage();
