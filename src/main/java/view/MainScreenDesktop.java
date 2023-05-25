@@ -7,13 +7,10 @@ import main.java.business.control.UsuarioManager;
 import main.java.business.model.Partida;
 import main.java.business.model.Personagem;
 import main.java.business.model.Usuario;
-import main.java.infra.InfraException;
-import main.java.util.CredentialsInvalidException;
-import main.java.util.LoginInvalidException;
-import main.java.util.PasswordInvalidException;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.util.Iterator;
+import java.util.Map;
 
 
 public class MainScreenDesktop {
@@ -23,12 +20,25 @@ public class MainScreenDesktop {
     PersonagemManager personagemManager;
     PartidaManager partidaManager;
 
+    private Command comandoAtual;
+
     public static void main(String[] args) {
         showMenu();
     }
 
     public static void showMenu() {
-        String option = JOptionPane.showInputDialog("Bem vindo ao sistema!\nEscolha a opcao desejada:\n1-Cadastrar Usuario\n2-Listar Usuarios\n3-Excluir Usuario\n4-Atualizar Usuario\n5-Lista partidas\n6-Lista Personagens\n7-Realizar Login\n8-Gerar Relatorio HTML\n9-Gerar Relatorio PDF\n10-Realizar Logout", "Sua opcao");
+        String option = JOptionPane.showInputDialog("Bem vindo ao sistema!" +
+                "\nEscolha a opcao desejada:" +
+                "\n1-Cadastrar Usuario" +
+                "\n2-Listar Usuarios" +
+                "\n3-Excluir Usuario" +
+                "\n4-Atualizar Usuario" +
+                "\n5-Lista partidas" +
+                "\n6-Lista Personagens" +
+                "\n7-Realizar Login" +
+                "\n8-Gerar Relatorio HTML" +
+                "\n9-Gerar Relatorio PDF" +
+                "\n10-Realizar Logout", "Sua opcao");
 
         MainScreenDesktop main = new MainScreenDesktop();
         if(option != null) {
@@ -48,130 +58,44 @@ public class MainScreenDesktop {
         partidaManager = partidaManager.getInstance();
 
         int choice = Integer.parseInt(option);
-        boolean checkedLogin = false;
-        boolean checkedPassword = false;
         switch (choice) {
 
             case 1:
+                String name = "";
+                String pass = "";
 
-                while (true) {
-                    String name = "";
-                    String pass = "";
+                name = JOptionPane.showInputDialog("Nome do usuario:");
+                pass = JOptionPane.showInputDialog("Senha do usuario:");
 
-                    if (!checkedLogin) {
-                        name = JOptionPane.showInputDialog("Nome do usuario:");
-
-                    }
-                    if (!checkedPassword) {
-                        pass = JOptionPane.showInputDialog("Senha do usuario:");
-
-                    }
-
-                    try {
-                        String[] args = {name, pass};
-                        this.usuarioManager.addUsuario(args);
-                        partidaManager.addPartida("Qualquer", 2);
-                        personagemManager.addPersonagem(2, "Josesvaldo", 1);
-                        JOptionPane.showMessageDialog(null, "Usuario adicionado com sucesso!");
-                        break;
-                    } catch (LoginInvalidException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
-                        checkedLogin = false;
-                        checkedPassword = true;
-                    } catch (PasswordInvalidException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
-                        checkedLogin = true;
-                        checkedPassword = false;
-                    }
-                }
-                showMenu();
+                comandoAtual = new CadastrarUsuarioCommand(this,name,pass);
                 break;
 
             case 2:
-                String usuarios = "";
-                Iterator<Usuario> users;
-                users = this.usuarioManager.getAllClients().values().iterator();
-                while (users.hasNext()) {
-                    Usuario usuario = users.next();
-                    usuarios = usuarios + "[ ID: " + usuario.getId() + " || Login: " + usuario.getLogin() + " || Senha: " + usuario.getSenha() + " ]" + "\n";
-                }
-                JOptionPane.showMessageDialog(null, usuarios);
-                showMenu();
+                comandoAtual = new ListarUsuariosCommand(this);
                 break;
 
             case 3:
                 String id = "";
                 id = JOptionPane.showInputDialog("ID do usuario:");
-                this.usuarioManager.deleteUsuario(Integer.parseInt(id));
-                showMenu();
+                comandoAtual = new DeletarUsuarioCommand(this, Integer.parseInt(id));
                 break;
 
             case 4:
                 id = "";
+
                 id = JOptionPane.showInputDialog("ID do usuario:");
+                name = JOptionPane.showInputDialog("Nome do usuario:");
+                pass = JOptionPane.showInputDialog("Senha do usuario:");
 
-                while (true) {
-                    String name = "";
-                    String pass = "";
-
-                    if (!checkedLogin) {
-                        name = JOptionPane.showInputDialog("Nome do usuario:");
-
-                    }
-                    if (!checkedPassword) {
-                        pass = JOptionPane.showInputDialog("Senha do usuario:");
-
-                    }
-
-                    try {
-                        String[] args = {name, pass};
-                        this.usuarioManager.updateUsuario(Integer.parseInt(id), args);
-                        JOptionPane.showMessageDialog(null, "Usuario atualizado com sucesso!");
-                        break;
-                    } catch (LoginInvalidException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
-                        checkedLogin = false;
-                        checkedPassword = true;
-                    } catch (PasswordInvalidException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
-                        checkedLogin = true;
-                        checkedPassword = false;
-                    }
-
-                }
-                showMenu();
+                comandoAtual = new AtualizarUsuarioCommand(this, Integer.parseInt(id),name,pass);
                 break;
 
             case 5:
-                String partida = "";
-                Iterator<Partida> partidas;
-                try {
-                    partidas = this.partidaManager.getAllPartidas().values().iterator();
-                    while (partidas.hasNext()) {
-                        Partida part = partidas.next();
-                        partida = partida + "[ ID: " + part.getId() + " || Nome: " + part.getNome() + " || ID mestre: " + part.getMestre() + " ]" + "\n";
-                    }
-                    JOptionPane.showMessageDialog(null, partida);
-                } catch (InfraException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage());
-                }
-                showMenu();
+                comandoAtual = new ListarPartidasCommand(this);
                 break;
 
             case 6:
-                String personagem = "";
-                Iterator<Personagem> personagens;
-                try {
-                    personagens = this.personagemManager.getAllPersonagens().values().iterator();
-                    while (personagens.hasNext()) {
-                        Personagem person = personagens.next();
-                        personagem = personagem + "[ ID: " + person.getId() + " || Nome: " + person.getNome() + " || ID criador: " + person.getCriador() + " ID Partida: " + person.getPartida() + " ]" + "\n";
-                    }
-                    JOptionPane.showMessageDialog(null, personagem);
-                } catch (InfraException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage());
-                }
-                showMenu();
+                comandoAtual = new ListarPersonagensCommand(this);
                 break;
 
             case 7:
@@ -180,33 +104,125 @@ public class MainScreenDesktop {
                 } else {
                     String login = "";
                     String senha = "";
+
                     login = JOptionPane.showInputDialog("Nome do usuario:");
                     senha = JOptionPane.showInputDialog("Senha do usuario:");
 
-                    try {
-                        String[] args = {login, senha};
-                        this.loginManager.login(login, senha);
-                        JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
-                    } catch (CredentialsInvalidException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
-                    }
+                    comandoAtual = new LoginCommand(this, login, senha);
                 }
-                showMenu();
-                break;
-            case 8:
-                this.loginManager.gerarRelatorioHtml();
-                showMenu();
-                break;
-            case 9:
-                this.loginManager.gerarRelatorioPDF();
-                showMenu();
-                break;
-            case 10:
-                this.loginManager.logout();
-                JOptionPane.showMessageDialog(null, "Logout realizado com sucesso!");
-                showMenu();
                 break;
 
+                case 8:
+                    comandoAtual = new GerarRelatorioHtmlCommand(this);
+                break;
+
+                case 9:
+                    comandoAtual = new GerarRelatorioPdfCommand(this);
+                break;
+
+                case 10:
+                    comandoAtual = new LogoutCommand(this);
+                break;
         }
+            comandoAtual.execute();
+    }
+
+    //Corrigir excessões, precisa salvar o valor atual do nome ou pedir os dois novamente.
+    public void cadastrarUsuario(Boolean cadastrado,Boolean checkedLogin, Boolean checkedPassword, String mensagemErro){
+        String name = "";
+        String pass = "";
+        if (!cadastrado) {
+            if (!checkedLogin) {
+                JOptionPane.showMessageDialog(null, mensagemErro);
+                name = JOptionPane.showInputDialog("Nome do usuario:");
+                pass = JOptionPane.showInputDialog("Senha do usuario:");
+            }
+            if (!checkedPassword) {
+                JOptionPane.showMessageDialog(null, mensagemErro);
+                name = JOptionPane.showInputDialog("Nome do usuario:");
+                pass = JOptionPane.showInputDialog("Senha do usuario:");
+            }
+
+            comandoAtual = new CadastrarUsuarioCommand(this,name,pass);
+        }else {
+            JOptionPane.showMessageDialog(null, "Usuario adicionado com sucesso!");
+            showMenu();
+        }
+    }
+
+    public void listarUsuarios(Map<Integer, Usuario> users){
+        ListAdapter listAdapter = new ListAdapter(users);
+        JScrollPane barraRolagem = new JScrollPane(listAdapter.criaListaUsuario());
+
+        JOptionPane.showMessageDialog(null, barraRolagem, "Personagens", JOptionPane.INFORMATION_MESSAGE);
+        showMenu();
+    }
+
+    public void deletarUsuario(){
+        JOptionPane.showMessageDialog(null, "Usuario deletado com sucesso!");
+        showMenu();
+    }
+
+    public void atualizarUsuario(Integer id, Boolean cadastrado,Boolean checkedLogin, Boolean checkedPassword, String mensagemErro){
+        String name = "";
+        String pass = "";
+
+        if (!cadastrado) {
+            if (!checkedLogin) {
+                JOptionPane.showMessageDialog(null, mensagemErro);
+                name = JOptionPane.showInputDialog("Nome do usuario:");
+                pass = JOptionPane.showInputDialog("Senha do usuario:");
+            }
+            if (!checkedPassword) {
+                JOptionPane.showMessageDialog(null, mensagemErro);
+                name = JOptionPane.showInputDialog("Nome do usuario:");
+                pass = JOptionPane.showInputDialog("Senha do usuario:");
+            }
+            comandoAtual = new AtualizarUsuarioCommand(this,id,name, pass);
+        }else {
+            JOptionPane.showMessageDialog(null, "Usuario atualizado com sucesso!");
+            showMenu();
+        }
+    }
+    public void listarPartidas(Map<Integer, Partida> partidas, Boolean sucesso, String mensagemErro){
+        ListAdapter listAdapter = new ListAdapter(partidas);
+        JScrollPane barraRolagem = new JScrollPane(listAdapter.criaListaPartida());
+
+        if (sucesso) {
+            JOptionPane.showMessageDialog(null, barraRolagem, "Partidas", JOptionPane.INFORMATION_MESSAGE);
+        }else {
+            JOptionPane.showMessageDialog(null, mensagemErro);
+        }
+            showMenu();
+    }
+
+    public void listarPersonagens(Map<Integer, Personagem> personagens, Boolean sucesso, String mensagemErro){
+        ListAdapter listAdapter = new ListAdapter(personagens);
+        JScrollPane barraRolagem = new JScrollPane(listAdapter.criaListaPersonagem());
+
+        if (sucesso) {
+            JOptionPane.showMessageDialog(null, barraRolagem, "Personagens", JOptionPane.INFORMATION_MESSAGE);
+        }else {
+            JOptionPane.showMessageDialog(null, mensagemErro);
+        }
+        showMenu();
+    }
+
+    public void realizarLogin(Boolean sucesso, String mensagemErro){
+        if (sucesso){
+            JOptionPane.showMessageDialog(null, "Login realizado com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(null, mensagemErro);
+        }
+        showMenu();
+    }
+
+    public void gerarRelatorio(){
+        JOptionPane.showMessageDialog(null, "Relatorio Gerado");
+        showMenu();
+    }
+
+    public void realizarLogout(){
+        JOptionPane.showMessageDialog(null, "Logout Realizado com Sucesso!");
     }
 }

@@ -1,9 +1,7 @@
 package main.java.business.control;
 
 import main.java.business.model.Usuario;
-import main.java.infra.DatabaseStrategy;
-import main.java.infra.PersistenceManager;
-import main.java.infra.UsuarioDatabaseStrategy;
+import main.java.infra.*;
 import main.java.util.CredentialsInvalidException;
 
 import java.util.HashMap;
@@ -23,9 +21,12 @@ public class LoginManager {
     Map<Integer, Usuario> usuarios;
     RelatorioAcessoUsuarios relatorio;
 
+    ConnectionFactory connectionFactory;
+
     private LoginManager() {
         strategy = new UsuarioDatabaseStrategy();
-        persistence = PersistenceManager.getInstance(strategy);
+        connectionFactory = SQLiteConnectionFactory.getInstance();
+        persistence = PersistenceManager.getInstance(connectionFactory,strategy);
         logged = false;
         acessos = new HashMap<>();
     }

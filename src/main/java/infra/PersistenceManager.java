@@ -17,11 +17,10 @@ public class PersistenceManager {
     private Connection conn;
     private DatabaseStrategy strategy;
     private static volatile PersistenceManager instance;
-    private static String url = "jdbc:sqlite:database.db";
 
-    private PersistenceManager(DatabaseStrategy strategy) {
+    private PersistenceManager(ConnectionFactory connectionFactory,DatabaseStrategy strategy) {
         try {
-            conn = DriverManager.getConnection(url);
+            conn = connectionFactory.getConnection();
             this.strategy = strategy;
             createTableIfNotExists();
             Runtime.getRuntime().addShutdownHook(new Thread(this::close));
@@ -40,14 +39,14 @@ public class PersistenceManager {
         }
     }
 
-    public static PersistenceManager getInstance(DatabaseStrategy str) {
+    public static PersistenceManager getInstance(ConnectionFactory connectionFactory,DatabaseStrategy str) {
         PersistenceManager result = instance;
         if(result != null) {
             return result;
         }
         synchronized (PersistenceManager.class) {
             if (instance == null) {
-                instance = new PersistenceManager(str);
+                instance = new PersistenceManager(connectionFactory,str);
             }
             return instance;
         }
