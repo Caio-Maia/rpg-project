@@ -1,6 +1,8 @@
 package main.java.infra;
 
-import main.java.business.model.Partida;
+import main.java.business.model.Status;
+import main.java.business.model.enums.Atributo;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,10 +10,12 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PartidaDatabaseStrategy implements DatabaseStrategy {
+public class StatusDatabaseStrategy implements DatabaseStrategy {
+
     @Override
     public void createTableIfNotExists(Connection conn) throws SQLException {
-        String sql = "CREATE TABLE IF NOT EXISTS Partidas(id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, mestre INTEGER NOT NULL, FOREIGN KEY(mestre) REFERENCES Usuarios(id));";
+        String sql = "CREATE TABLE IF NOT EXISTS Status(id INTEGER PRIMARY KEY AUTOINCREMENT, atributo TEXT NOT NULL, valor TEXT NOT NULL,"+
+                " temModificador BOOLEAN NOT NULL CHECK (temModificador IN (0, 1)));";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.execute();
         }
@@ -19,10 +23,11 @@ public class PartidaDatabaseStrategy implements DatabaseStrategy {
 
     @Override
     public void setSaveParameters(PreparedStatement stmt, Object data) throws SQLException {
-        Partida partida = (Partida) data;
+        Status status = (Status) data;
 
-        stmt.setString(1, partida.getNome());
-        stmt.setInt(2, partida.getMestre());
+        stmt.setString(1, status.getAtributo().name());
+        stmt.setString(2, status.getValor());
+        stmt.setBoolean(3, status.getTemModificador());
 
     }
 
@@ -39,37 +44,37 @@ public class PartidaDatabaseStrategy implements DatabaseStrategy {
 
     private <T> T createObjectFromResultSet(ResultSet rs) throws SQLException  {
         int id = rs.getInt("id");
-        String nome = rs.getString("nome");
-        int mestre = rs.getInt("mestre");
+        String atributo = rs.getString("atributo");
+        String valor = rs.getString("valor");
+        Boolean temModificador = rs.getInt("temModificador") != 0;
 
-        T data = (T) new Partida(id, nome, mestre);
+        T data = (T) new Status(id, Atributo.valueOf(atributo), valor, temModificador);
         return data;
     }
 
     @Override
     public void createObjectUpdate(PreparedStatement stmt, Object data) throws SQLException {
-        Partida partida = (Partida) data;
-        stmt.setString(1, partida.getNome());
+        Status status = (Status) data;
+        stmt.setString(1, status.getValor());
     }
 
     @Override
     public String getSaveQuery() {
-        return "INSERT INTO Partidas(nome, mestre) VALUES(?,?)";
+        return "INSERT INTO Status(atributo, valor, temModificador) VALUES(?,?,?)";
     }
 
     @Override
     public String getLoadQuery() {
-        return "SELECT * FROM Partidas";
+        return "SELECT * FROM Status";
     }
 
     @Override
     public String getDeleteQuery() {
-        return "DELETE FROM Partidas WHERE id = ?";
+        return "DELETE FROM Status WHERE id = ?";
     }
 
     @Override
     public String getUpdateQuery(String attributeName) {
-        return "UPDATE Partidas SET " + attributeName + " = ? WHERE id = ?";
+        return "UPDATE Status SET " + attributeName + " = ? WHERE id = ?";
     }
-
 }

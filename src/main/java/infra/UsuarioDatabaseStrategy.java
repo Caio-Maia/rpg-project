@@ -11,7 +11,7 @@ import java.util.Map;
 public class UsuarioDatabaseStrategy implements DatabaseStrategy {
     @Override
     public void createTableIfNotExists(Connection conn) throws SQLException {
-        String sql = "CREATE TABLE IF NOT EXISTS Usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, senha TEXT NOT NULL);";
+        String sql = "CREATE TABLE IF NOT EXISTS Usuarios(id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, senha TEXT NOT NULL);";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.execute();
         }
@@ -66,8 +66,8 @@ public class UsuarioDatabaseStrategy implements DatabaseStrategy {
     }
 
     @Override
-    public String getUpdateQuery() {
-        return "UPDATE Usuarios SET nome = ?, senha = ? WHERE id = ?";
+    public String getUpdateQuery(String attributeName) {
+        return "UPDATE Usuarios SET " + attributeName + " = ? WHERE id = ?";
     }
 
 }

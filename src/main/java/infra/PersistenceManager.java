@@ -76,11 +76,11 @@ public class PersistenceManager {
         return dataMap;
     }
 
-    public void updateData(DatabaseStrategy strategy, int id, Object newData) {
-        String sql = strategy.getUpdateQuery();
+    public void updateData(DatabaseStrategy strategy, int id, String attributeName, Object attributeValue) {
+        String sql = strategy.getUpdateQuery(attributeName);
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            strategy.createObjectUpdate(stmt, newData);
-            stmt.setInt(stmt.getParameterMetaData().getParameterCount(), id);
+            stmt.setObject(1, attributeValue);
+            stmt.setInt(2, id);
             stmt.executeUpdate();
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Erro ao tentar atualizar os dados", ex);

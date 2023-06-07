@@ -1,6 +1,7 @@
 package main.java.business.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Personagem implements Serializable {
     private static final long serialVersionUID = -3409171233621036055L;
@@ -9,6 +10,13 @@ public class Personagem implements Serializable {
     private Integer criador;
     private String nome;
     private Integer partida;
+    private String ancestralidade;
+    private String classe;
+    private String dinheiro;
+    private List<Status> statuses;
+    private List<Equipamento> equipamentos;
+    private List<Item> itens;
+    private List<Talento> talentos;
 
     public Personagem(Integer criador, String nome, Integer partida) {
         this.criador = criador;

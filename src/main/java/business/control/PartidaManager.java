@@ -1,10 +1,8 @@
 package main.java.business.control;
 
 import main.java.business.model.Partida;
-import main.java.business.model.Usuario;
 import main.java.infra.*;
 
-import java.sql.SQLException;
 import java.util.Map;
 
 public class PartidaManager {
@@ -38,5 +36,13 @@ public class PartidaManager {
     public Map<Integer, Partida> getAllPartidas() throws InfraException {
         Map<Integer, Partida> mylist = persistence.loadData(strategy);
         return mylist;
+    }
+
+    public void updatePartida(int id, String attributeName, Partida partida) {
+        persistence.updateData(strategy, id,attributeName, partida);
+    }
+
+    public void deletePartida(int id) {
+        persistence.deleteData(strategy, id);
     }
 }

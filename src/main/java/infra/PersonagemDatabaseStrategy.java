@@ -68,8 +68,8 @@ public class PersonagemDatabaseStrategy implements DatabaseStrategy{
     }
 
     @Override
-    public String getUpdateQuery() {
-        return "UPDATE Personagens SET nome = ? WHERE id = ?";
+    public String getUpdateQuery(String attributeName) {
+        return "UPDATE Personagens SET " + attributeName + " = ? WHERE id = ?";
     }
 
 }

@@ -51,7 +51,20 @@ public class UsuarioManager {
 	public void updateUsuario(int id, String [] args) throws LoginInvalidException, PasswordInvalidException {
 		UserValidador.validateName(args[0]);
 		UserValidador.validatePassword(args[1]);
-		persistence.updateData(strategy, id, new Usuario(args[0],args[1]));
+		updateNome(id, args[0]);
+		updateSenha(id, args[1]);
+	}
+
+	public void updateSenha(int id, String senha) {
+		Usuario usuario = new Usuario();
+		usuario.setSenha(senha);
+		persistence.updateData(strategy, id,"senha", senha);
+	}
+
+	public void updateNome(int id, String nome) {
+		Usuario usuario = new Usuario();
+		usuario.setLogin(nome);
+		persistence.updateData(strategy, id, "nome", nome);
 	}
 
 	public void deleteUsuario(int id) {

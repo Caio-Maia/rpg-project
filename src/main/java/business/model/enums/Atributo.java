@@ -1,0 +1,5 @@
+package main.java.business.model.enums;
+
+public enum Atributo {
+    FORCA, AGILIDADE, INTELECTO, VONTADE, PERCEPCAO,  DEFESA, SAUDE, TXCURA, TAMANHO, DESLOCAMENTO, PODER, DANO, INSANIDADE, CORRUPÇÃO;
+}

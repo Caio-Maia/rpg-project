@@ -1,11 +1,8 @@
 package main.java.business.control;
 
-import main.java.business.model.Partida;
 import main.java.business.model.Personagem;
-import main.java.business.model.Usuario;
 import main.java.infra.*;
 
-import java.sql.SQLException;
 import java.util.Map;
 
 public class PersonagemManager {
@@ -42,5 +39,13 @@ public class PersonagemManager {
     public Map<Integer, Personagem> getAllPersonagens() throws InfraException {
         Map<Integer, Personagem> mylist = persistence.loadData(strategy);
         return mylist;
+    }
+
+    public void updatePersonagem(int id, String attributeName, Personagem personagem) {
+        persistence.updateData(strategy, id, attributeName, personagem);
+    }
+
+    public void deletePersonagem(int id) {
+        persistence.deleteData(strategy, id);
     }
 }
