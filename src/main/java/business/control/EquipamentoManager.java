@@ -3,6 +3,7 @@ package main.java.business.control;
 import main.java.business.model.Equipamento;
 import main.java.infra.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -41,6 +42,11 @@ public class EquipamentoManager {
     public Map<Integer, Equipamento> getAllEquipamentos() throws InfraException {
         Map<Integer, Equipamento> mylist = persistence.loadData(strategy);
         return mylist;
+    }
+
+    public Map<Integer, Equipamento> getEquipamentosByIds(List<Integer> ids) {
+        Map<Integer, Equipamento> mylist = persistence.loadDataByListOfIds(ids);
+        return  mylist;
     }
 
     public void updateEquipamento(int id, String attributeName, Equipamento equipamento) {

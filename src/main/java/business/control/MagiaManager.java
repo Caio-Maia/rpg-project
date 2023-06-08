@@ -5,6 +5,7 @@ import main.java.business.model.enums.TipoAtaque;
 import main.java.business.model.enums.TipoMagia;
 import main.java.infra.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -43,6 +44,11 @@ public class MagiaManager {
     public Map<Integer, Magia> getAllMagias() throws InfraException {
         Map<Integer, Magia> mylist = persistence.loadData(strategy);
         return mylist;
+    }
+
+    public Map<Integer, Magia> getMagiasByIds(List<Integer> ids) {
+        Map<Integer, Magia> mylist = persistence.loadDataByListOfIds(ids);
+        return  mylist;
     }
 
     public void updateMagia(int id, String attributeName, Magia magia) {

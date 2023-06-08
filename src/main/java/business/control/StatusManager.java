@@ -4,6 +4,7 @@ import main.java.business.model.Status;
 import main.java.business.model.enums.Atributo;
 import main.java.infra.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -42,6 +43,11 @@ public class StatusManager {
     public Map<Integer, Status> getAllStatuses() throws InfraException {
         Map<Integer, Status> mylist = persistence.loadData(strategy);
         return mylist;
+    }
+
+    public Map<Integer, Status> getStatusesByIds(List<Integer> ids) {
+        Map<Integer, Status> mylist = persistence.loadDataByListOfIds(ids);
+        return  mylist;
     }
 
     public void updateStatus(int id, String attributeName, Status status) {

@@ -3,6 +3,8 @@ package main.java.business.control;
 import main.java.business.model.Arma;
 import main.java.business.model.enums.Atributo;
 import main.java.infra.*;
+
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -40,6 +42,11 @@ public class ArmaManager {
     public Map<Integer, Arma> getAllArmas() throws InfraException {
         Map<Integer, Arma> mylist = persistence.loadData(strategy);
         return mylist;
+    }
+
+    public Map<Integer, Arma> getArmasByIds(List<Integer>ids) {
+        Map<Integer, Arma> mylist = persistence.loadDataByListOfIds(ids);
+        return  mylist;
     }
 
     public void updateArma(int id, String attributeName, Arma arma) {

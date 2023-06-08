@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ArmaDatabaseStrategy implements DatabaseStrategy {
@@ -69,6 +70,11 @@ public class ArmaDatabaseStrategy implements DatabaseStrategy {
     @Override
     public String getLoadQuery() {
         return "SELECT * FROM Arma";
+    }
+
+    @Override
+    public String getLoadByListOfIdsQuery(List<Integer> ids) {
+        return "SELECT * FROM Arma WHERE id IN (" + ids.toString().replaceAll("[\\[\\]]", "") + ")";
     }
 
     @Override

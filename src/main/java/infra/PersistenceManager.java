@@ -1,6 +1,7 @@
 package main.java.infra;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -97,6 +98,20 @@ public class PersistenceManager {
             logger.log(Level.SEVERE, "Erro deletar informação", ex);
             logger.log(Level.SEVERE, "Detalhes: " + ex.getMessage());
         }
+    }
+
+    public <T> Map<Integer, T> loadDataByListOfIds(List<Integer> ids) {
+        String sql = strategy.getLoadByListOfIdsQuery(ids);
+        Map<Integer, T> dataMap;
+        try (PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            dataMap = strategy.loadData(rs);
+        } catch (SQLException ex) {
+            dataMap = new HashMap<>();
+            logger.log(Level.SEVERE, "Erro ao tentar carregar dados do Banco", ex);
+            logger.log(Level.SEVERE, "Detalhes: " + ex.getMessage());
+        }
+        return dataMap;
     }
 
     public void close() {

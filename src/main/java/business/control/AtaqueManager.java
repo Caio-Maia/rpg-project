@@ -4,6 +4,7 @@ import main.java.business.model.Ataque;
 import main.java.business.model.enums.TipoAtaque;
 import main.java.infra.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -42,6 +43,11 @@ public class AtaqueManager {
     public Map<Integer, Ataque> getAllAtaques() throws InfraException {
         Map<Integer, Ataque> mylist = persistence.loadData(strategy);
         return mylist;
+    }
+
+    public Map<Integer, Ataque> getAtaquesByIds(List<Integer> ids) {
+        Map<Integer, Ataque> mylist = persistence.loadDataByListOfIds(ids);
+        return  mylist;
     }
 
     public void updateAtaque(int id, String attributeName, Ataque ataque) {

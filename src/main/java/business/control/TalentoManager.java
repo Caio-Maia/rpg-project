@@ -3,6 +3,7 @@ package main.java.business.control;
 import main.java.business.model.Talento;
 import main.java.infra.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -41,6 +42,11 @@ public class TalentoManager {
     public Map<Integer, Talento> getAllTalentos() throws InfraException {
         Map<Integer, Talento> mylist = persistence.loadData(strategy);
         return mylist;
+    }
+
+    public Map<Integer, Talento> getTalentosByIds(List<Integer> ids) {
+        Map<Integer, Talento> mylist = persistence.loadDataByListOfIds(ids);
+        return  mylist;
     }
 
     public void updateTalento(int id, String attributeName, Talento talento) {

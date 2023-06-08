@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StatusDatabaseStrategy implements DatabaseStrategy {
@@ -66,6 +67,11 @@ public class StatusDatabaseStrategy implements DatabaseStrategy {
     @Override
     public String getLoadQuery() {
         return "SELECT * FROM Status";
+    }
+
+    @Override
+    public String getLoadByListOfIdsQuery(List<Integer> ids) {
+        return "SELECT * FROM Status WHERE id IN (" + ids.toString().replaceAll("[\\[\\]]", "") + ")";
     }
 
     @Override
