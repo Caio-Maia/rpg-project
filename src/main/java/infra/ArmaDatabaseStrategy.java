@@ -60,6 +60,10 @@ public class ArmaDatabaseStrategy implements DatabaseStrategy {
     public void createObjectUpdate(PreparedStatement stmt, Object data) throws SQLException {
         Arma arma = (Arma) data;
         stmt.setString(1, arma.getNome());
+        stmt.setString(2, arma.getRequisito());
+        stmt.setString(3, arma.getAtributo().name());
+        stmt.setString(4, arma.getDano());
+        stmt.setString(5, arma.getPropriedades());
     }
 
     @Override
@@ -83,7 +87,7 @@ public class ArmaDatabaseStrategy implements DatabaseStrategy {
     }
 
     @Override
-    public String getUpdateQuery(String attributeName) {
-        return "UPDATE Arma SET " + attributeName + " = ? WHERE id = ?";
+    public String getUpdateQuery() {
+        return "UPDATE Arma SET nome = ?, requisito = ?, atributo = ?, dano = ?, propriedades = ? WHERE id = ?";
     }
 }

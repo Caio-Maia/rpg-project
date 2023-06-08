@@ -20,7 +20,7 @@ public interface DatabaseStrategy {
 
     String getDeleteQuery();
 
-    String getUpdateQuery(String attributeName);
+    String getUpdateQuery();
 
     String getSaveQuery();
 

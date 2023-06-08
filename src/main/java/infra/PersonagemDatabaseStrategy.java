@@ -73,6 +73,13 @@ public class PersonagemDatabaseStrategy implements DatabaseStrategy{
     public void createObjectUpdate(PreparedStatement stmt, Object data) throws SQLException {
         Personagem personagem = (Personagem) data;
         stmt.setString(1, personagem.getNome());
+        stmt.setString(2, personagem.getAncestralidade());
+        stmt.setString(3, personagem.getClasse());
+        stmt.setString(4, personagem.getDinheiro());
+        stmt.setString(5, personagem.getStatusesId().toString());
+        stmt.setString(6, personagem.getEquipamentosId().toString());
+        stmt.setString(7, personagem.getItensId().toString());
+        stmt.setString(8, personagem.getTalentosId().toString());
     }
     @Override
     public String getSaveQuery() {
@@ -95,8 +102,8 @@ public class PersonagemDatabaseStrategy implements DatabaseStrategy{
     }
 
     @Override
-    public String getUpdateQuery(String attributeName) {
-        return "UPDATE Personagens SET " + attributeName + " = ? WHERE id = ?";
+    public String getUpdateQuery() {
+        return "UPDATE Personagens SET nome = ?, ancestralidade = ?, classe = ?, dinheiro = ?, statusesId = ?, equipamentosId = ?, itensId = ?, talentosId = ?  WHERE id = ?";
     }
 
 }

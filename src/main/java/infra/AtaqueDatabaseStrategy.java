@@ -67,6 +67,13 @@ public class AtaqueDatabaseStrategy implements DatabaseStrategy {
     public void createObjectUpdate(PreparedStatement stmt, Object data) throws SQLException {
         Ataque ataque = (Ataque) data;
         stmt.setString(1, ataque.getNome());
+        stmt.setString(2, ataque.getDistancia());
+        stmt.setString(3, ataque.getTipoAtaque().name());
+        stmt.setString(4, ataque.getContraAtaque().name());
+        stmt.setInt(5, ataque.getDadiPerd());
+        stmt.setString(6, ataque.getDano());
+        stmt.setString(7, ataque.getCritico());
+        stmt.setString(8, ataque.getDescricao());
     }
 
     @Override
@@ -90,7 +97,7 @@ public class AtaqueDatabaseStrategy implements DatabaseStrategy {
     }
 
     @Override
-    public String getUpdateQuery(String attributeName) {
-        return "UPDATE Ataque SET " + attributeName + " = ? WHERE id = ?";
+    public String getUpdateQuery() {
+        return "UPDATE Ataque SET nome = ?, distancia = ?, tipoAtaque = ?, contraAtaque = ?, dadiPerd = ?, dano = ?, critico = ?, descricao = ? WHERE id = ?";
     }
 }
