@@ -39,8 +39,8 @@ public class AtualizarAtaqueScreenState extends JFrame implements ScreenState {
         textDistancia = new JTextField(20);
         textDadiPerd = new JTextField(20);
         textDano = new JTextField(20);
-        textCritico = new JTextField(256);
-        textDescricao = new JTextField(256);
+        textCritico = new JTextField(20);
+        textDescricao = new JTextField(20);
 
         JButton CriarBtn = new JButton("Criar");
         JButton VoltarBtn = new JButton("Voltar");

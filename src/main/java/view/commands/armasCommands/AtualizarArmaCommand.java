@@ -11,35 +11,16 @@ public class AtualizarArmaCommand implements Command {
 
     private MainScreenDesktop mainScreen;
     private Integer id;
-    private  String varName,valor;
-    public AtualizarArmaCommand(MainScreenDesktop screen, Integer id, String varName, String valor) {
+    private  Arma arma;
+    public AtualizarArmaCommand(MainScreenDesktop screen, Integer id, Arma arma) {
         this.mainScreen = screen;
         this.id = id;
-        this.varName = varName;
-        this.valor = valor;
+        this.arma = arma;
     }
 
     @Override
     public void execute() {
-        Arma arma = new Arma();
-        switch (varName){
-            case  "nome":
-                arma.setNome(valor);
-                break;
-            case "requisito":
-                arma.setRequisito(valor);
-                break;
-            case "atributo":
-                arma.setAtributo(Atributo.valueOf(valor));
-                break;
-            case "dano":
-                arma.setDano(valor);
-                break;
-            case "propriedade":
-                arma.setPropriedades(valor);
-                break;
-        }
-        mainScreen.getArmaManager().updateArma(id,varName,arma);
+        mainScreen.getArmaManager().updateArma(id,arma);
         JOptionPane.showMessageDialog(null, "Arma Atualizada com sucesso!");
     }
 }

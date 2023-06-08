@@ -45,10 +45,10 @@ public class CriarMagiaScreenState extends JFrame implements ScreenState {
         textTradicao = new JTextField(20);
         textAlvo = new JTextField(20);
         textDano = new JTextField(20);
-        textCritico = new JTextField(256);
+        textCritico = new JTextField(20);
         textDuracao = new JTextField(20);
-        textEfeito = new JTextField(256);
-        textDescricao = new JTextField(256);
+        textEfeito = new JTextField(20);
+        textDescricao = new JTextField(20);
         textNivel = new JTextField(5);
         textQtdConj = new JTextField(5);
 

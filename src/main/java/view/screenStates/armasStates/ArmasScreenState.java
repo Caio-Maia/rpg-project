@@ -4,9 +4,7 @@ import main.java.view.MainScreenDesktop;
 import main.java.view.commands.Command;
 import main.java.view.commands.VoltarTelaCommand;
 import main.java.view.commands.armasCommands.ListarArmasCommand;
-import main.java.view.commands.personagensCommands.ListarPersonagensCommand;
 import main.java.view.screenStates.ScreenState;
-import main.java.view.screenStates.personagensStates.CriarPersonagemScreenState;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

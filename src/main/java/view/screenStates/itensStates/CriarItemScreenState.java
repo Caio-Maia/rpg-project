@@ -32,7 +32,7 @@ public class CriarItemScreenState extends JFrame implements ScreenState {
         JLabel labelQtdUsos = new JLabel("Quantidade de Usos:");
         JLabel labelQtd = new JLabel("Quantidade:");
         textNome = new JTextField(20);
-        textDescricao = new JTextField(256);
+        textDescricao = new JTextField(20);
         textQtdUsos = new JTextField(5);
         textQtd = new JTextField(5);
 

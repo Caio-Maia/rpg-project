@@ -3,7 +3,6 @@ package main.java.view.screenStates.personagensStates;
 import main.java.view.MainScreenDesktop;
 import main.java.view.commands.Command;
 import main.java.view.commands.VoltarTelaCommand;
-import main.java.view.commands.personagensCommands.AtualizarPersonagemCommand;
 import main.java.view.commands.personagensCommands.DeletarPersonagemCommand;
 import main.java.view.screenStates.ScreenState;
 

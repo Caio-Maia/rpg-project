@@ -32,7 +32,7 @@ public class CriarTalentoScreenState extends JFrame implements ScreenState {
         JLabel labelConjRest = new JLabel("Qtd restante de conjurações:");
 
         textNome = new JTextField(20);
-        textDescricao = new JTextField(256);
+        textDescricao = new JTextField(20);
         textQtdConjMax = new JTextField(5);
         textQtdConjRest = new JTextField(5);
 

@@ -3,7 +3,6 @@ package main.java.view.screenStates.itensStates;
 import main.java.view.MainScreenDesktop;
 import main.java.view.commands.Command;
 import main.java.view.commands.VoltarTelaCommand;
-import main.java.view.commands.ataquesCommands.ListarAtaquesCommand;
 import main.java.view.commands.itensCommands.ListarItensCommands;
 import main.java.view.screenStates.ScreenState;
 
