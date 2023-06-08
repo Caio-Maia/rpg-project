@@ -11,6 +11,8 @@ public class Partida implements Serializable {
     private String nome;
     private Integer mestre;
 
+    public Partida() {}
+
     public Partida(String nome, Integer criador) {
         this.nome = nome;
         this.mestre = criador;

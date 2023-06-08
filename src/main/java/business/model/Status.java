@@ -8,6 +8,8 @@ public class Status {
     private String valor;
     private Boolean temModificador;
 
+    public Status() {}
+
     public Status(Integer id, Atributo atributo, String valor, Boolean temModificador) {
         this.id = id;
         this.atributo = atributo;

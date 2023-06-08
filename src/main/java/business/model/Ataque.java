@@ -14,6 +14,8 @@ public class Ataque {
     private String critico;
     private String descricao;
 
+    public Ataque() {}
+
     public Ataque(Integer id, String nome, String distancia, TipoAtaque tipoAtaque, TipoAtaque contraAtaque, Integer dadiPerd, String dano, String critico, String descricao) {
         this.id = id;
         this.nome = nome;

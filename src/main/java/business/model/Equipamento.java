@@ -7,6 +7,8 @@ public class Equipamento {
     private String defesa;
     private String requisito;
 
+    public Equipamento() {}
+
     public Equipamento(Integer id, String nome, String defesa, String requisito) {
         this.id = id;
         this.nome = nome;

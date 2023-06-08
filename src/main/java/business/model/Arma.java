@@ -11,6 +11,8 @@ public class Arma {
     private String dano;
     private String propriedades;
 
+    public Arma() {}
+
     public Arma(Integer id, String nome, String requisito, Atributo atributo, String dano, String propriedades) {
         this.id = id;
         this.nome = nome;

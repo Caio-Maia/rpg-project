@@ -9,6 +9,8 @@ public class Talento {
     private Integer qteConjuracoesMax;
     private Integer qteConjuracoesRest;
 
+    public Talento() {}
+
     public Talento(Integer id, String nome, String descricao, Boolean temConjuracoes, Integer qteConjuracoesMax, Integer qteConjuracoesRest) {
         this.id = id;
         this.nome = nome;

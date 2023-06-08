@@ -20,6 +20,8 @@ public class Magia {
     private TipoAtaque contraAtaque;
     private Integer qteConjuracoesRest;
 
+    public Magia() {}
+
     public Magia(Integer id, String nome, String tradicao, TipoMagia tipoMagia, Integer nivel, String alvo, String dano, String critico, String duracao, String efeito, String descricao, TipoAtaque tipoAtaque, TipoAtaque contraAtaque, Integer qteConjuracoesRest) {
         this.id = id;
         this.nome = nome;

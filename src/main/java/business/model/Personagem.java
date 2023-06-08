@@ -18,6 +18,8 @@ public class Personagem implements Serializable {
     private List<Integer> itensId;
     private List<Integer> talentosId;
 
+    public Personagem() {}
+
     public Personagem(Integer criador, String nome, Integer partida, String ancestralidade, String classe, String dinheiro, List<Integer> statusesId, List<Integer> equipamentosId, List<Integer> itensId, List<Integer> talentosId) {
         this.criador = criador;
         this.nome = nome;
