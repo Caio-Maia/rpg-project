@@ -51,8 +51,8 @@ public class StatusManager {
         return  mylist;
     }
 
-    public void updateStatus(int id, String attributeName, Status status) {
-        persistence.updateData(strategy, id, attributeName, status);
+    public void updateStatus(int id, Status status) {
+        persistence.updateData(strategy, id, status);
     }
 
     public void deleteStatus(int id) {

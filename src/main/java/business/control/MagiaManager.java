@@ -52,8 +52,8 @@ public class MagiaManager {
         return  mylist;
     }
 
-    public void updateMagia(int id, String attributeName, Magia magia) {
-        persistence.updateData(strategy, id, attributeName, magia);
+    public void updateMagia(int id, Magia magia) {
+        persistence.updateData(strategy, id, magia);
     }
 
     public void deleteMagia(int id) {

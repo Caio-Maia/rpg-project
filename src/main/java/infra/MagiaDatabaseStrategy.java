@@ -79,7 +79,20 @@ public class MagiaDatabaseStrategy implements DatabaseStrategy {
     @Override
     public void createObjectUpdate(PreparedStatement stmt, Object data) throws SQLException {
         Magia magia = (Magia) data;
+
         stmt.setString(1, magia.getNome());
+        stmt.setString(2, magia.getTradicao());
+        stmt.setString(3, magia.getTipoMagia().name());
+        stmt.setInt(4, magia.getNivel());
+        stmt.setString(5, magia.getAlvo());
+        stmt.setString(6, magia.getDano());
+        stmt.setString(7, magia.getCritico());
+        stmt.setString(8, magia.getDuracao());
+        stmt.setString(9, magia.getEfeito());
+        stmt.setString(10, magia.getDescricao());
+        stmt.setString(11, magia.getTipoAtaque().name());
+        stmt.setString(12, magia.getContraAtaque().name());
+        stmt.setInt(13, magia.getQteConjuracoesRest());
     }
 
     @Override
@@ -103,7 +116,7 @@ public class MagiaDatabaseStrategy implements DatabaseStrategy {
     }
 
     @Override
-    public String getUpdateQuery(String attributeName) {
-        return "UPDATE Magia SET " + attributeName + " = ? WHERE id = ?";
+    public String getUpdateQuery() {
+        return "UPDATE Magia SET nome = ?, tradicao = ?, tipoMagia = ?, nivel = ?, alvo = ?, dano = ?, critico = ?, duracao = ?, efeito = ?, descricao = ?, tipoAtaque = ?, contraAtaque = ?, qteConjuracoesRest = ? WHERE id = ?";
     }
 }

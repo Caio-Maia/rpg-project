@@ -50,8 +50,8 @@ public class ItemManager {
         return  mylist;
     }
 
-    public void updateItem(int id, String attributeName, Item item) {
-        persistence.updateData(strategy, id, attributeName, item);
+    public void updateItem(int id, Item item) {
+        persistence.updateData(strategy, id, item);
     }
 
     public void deleteItem(int id) {

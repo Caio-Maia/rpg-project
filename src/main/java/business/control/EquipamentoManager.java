@@ -50,8 +50,8 @@ public class EquipamentoManager {
         return  mylist;
     }
 
-    public void updateEquipamento(int id, String attributeName, Equipamento equipamento) {
-        persistence.updateData(strategy, id, attributeName, equipamento);
+    public void updateEquipamento(int id, Equipamento equipamento) {
+        persistence.updateData(strategy, id, equipamento);
     }
 
     public void deleteEquipamento(int id) {

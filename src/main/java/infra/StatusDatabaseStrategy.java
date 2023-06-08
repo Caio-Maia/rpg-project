@@ -57,6 +57,7 @@ public class StatusDatabaseStrategy implements DatabaseStrategy {
     public void createObjectUpdate(PreparedStatement stmt, Object data) throws SQLException {
         Status status = (Status) data;
         stmt.setString(1, status.getValor());
+        stmt.setBoolean(2, status.getTemModificador());
     }
 
     @Override
@@ -80,7 +81,7 @@ public class StatusDatabaseStrategy implements DatabaseStrategy {
     }
 
     @Override
-    public String getUpdateQuery(String attributeName) {
-        return "UPDATE Status SET " + attributeName + " = ? WHERE id = ?";
+    public String getUpdateQuery() {
+        return "UPDATE Status SET valor = ?, temModificador = ? WHERE id = ?";
     }
 }

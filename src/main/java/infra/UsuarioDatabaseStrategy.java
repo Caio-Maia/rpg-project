@@ -72,8 +72,8 @@ public class UsuarioDatabaseStrategy implements DatabaseStrategy {
     }
 
     @Override
-    public String getUpdateQuery(String attributeName) {
-        return "UPDATE Usuarios SET " + attributeName + " = ? WHERE id = ?";
+    public String getUpdateQuery() {
+        return "UPDATE Usuarios SET nome = ?, senha = ? WHERE id = ?";
     }
 
 }

@@ -39,8 +39,8 @@ public class PartidaManager {
         return mylist;
     }
 
-    public void updatePartida(int id, String attributeName, Partida partida) {
-        persistence.updateData(strategy, id,attributeName, partida);
+    public void updatePartida(int id, Partida partida) {
+        persistence.updateData(strategy, id, partida);
     }
 
     public void deletePartida(int id) {

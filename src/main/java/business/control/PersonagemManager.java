@@ -48,8 +48,8 @@ public class PersonagemManager {
         return  mylist;
     }
 
-    public void updatePersonagem(int id, String attributeName, Personagem personagem) {
-        persistence.updateData(strategy, id, attributeName, personagem);
+    public void updatePersonagem(int id, Personagem personagem) {
+        persistence.updateData(strategy, id, personagem);
     }
 
     public void deletePersonagem(int id) {

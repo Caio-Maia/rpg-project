@@ -51,8 +51,8 @@ public class AtaqueManager {
         return  mylist;
     }
 
-    public void updateAtaque(int id, String attributeName, Ataque ataque) {
-        persistence.updateData(strategy, id,attributeName, ataque);
+    public void updateAtaque(int id, Ataque ataque) {
+        persistence.updateData(strategy, id, ataque);
     }
 
     public void deleteAtaque(int id) {

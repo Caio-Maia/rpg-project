@@ -74,8 +74,8 @@ public class PartidaDatabaseStrategy implements DatabaseStrategy {
     }
 
     @Override
-    public String getUpdateQuery(String attributeName) {
-        return "UPDATE Partidas SET " + attributeName + " = ? WHERE id = ?";
+    public String getUpdateQuery() {
+        return "UPDATE Partidas SET nome = ? WHERE id = ?";
     }
 
 }

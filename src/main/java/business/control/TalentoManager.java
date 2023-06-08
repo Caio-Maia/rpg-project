@@ -50,8 +50,8 @@ public class TalentoManager {
         return  mylist;
     }
 
-    public void updateTalento(int id, String attributeName, Talento talento) {
-        persistence.updateData(strategy, id,attributeName, talento);
+    public void updateTalento(int id, Talento talento) {
+        persistence.updateData(strategy, id, talento);
     }
 
     public void deleteTalento(int id) {

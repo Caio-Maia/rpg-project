@@ -56,6 +56,8 @@ public class EquipamentoDatabaseStrategy implements DatabaseStrategy {
     public void createObjectUpdate(PreparedStatement stmt, Object data) throws SQLException {
         Equipamento equipamento = (Equipamento) data;
         stmt.setString(1, equipamento.getNome());
+        stmt.setString(2, equipamento.getDefesa());
+        stmt.setString(3, equipamento.getRequisito());
     }
 
     @Override
@@ -79,7 +81,7 @@ public class EquipamentoDatabaseStrategy implements DatabaseStrategy {
     }
 
     @Override
-    public String getUpdateQuery(String attributeName) {
-        return "UPDATE Equipamento SET " + attributeName + " = ? WHERE id = ?";
+    public String getUpdateQuery() {
+        return "UPDATE Equipamento SET nome = ?, defesa = ?, requisito = ? WHERE id = ?";
     }
 }

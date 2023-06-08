@@ -50,8 +50,8 @@ public class ArmaManager {
         return  mylist;
     }
 
-    public void updateArma(int id, String attributeName, Arma arma) {
-        persistence.updateData(strategy, id,attributeName, arma);
+    public void updateArma(int id, Arma arma) {
+        persistence.updateData(strategy, id, arma);
     }
 
     public void deleteArma(int id) {

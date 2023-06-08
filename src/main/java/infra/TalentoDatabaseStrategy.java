@@ -60,6 +60,10 @@ public class TalentoDatabaseStrategy implements DatabaseStrategy {
     public void createObjectUpdate(PreparedStatement stmt, Object data) throws SQLException {
         Talento talento = (Talento) data;
         stmt.setString(1, talento.getNome());
+        stmt.setString(2, talento.getDescricao());
+        stmt.setBoolean(3, talento.getTemConjuracoes());
+        stmt.setInt(4, talento.getQteConjuracoesMax());
+        stmt.setInt(5, talento.getQteConjuracoesRest());
     }
 
     @Override
@@ -83,7 +87,7 @@ public class TalentoDatabaseStrategy implements DatabaseStrategy {
     }
 
     @Override
-    public String getUpdateQuery(String attributeName) {
-        return "UPDATE Talento SET " + attributeName + " = ? WHERE id = ?";
+    public String getUpdateQuery() {
+        return "UPDATE Talento SET nome = ?, descricao = ?, temConjuracoes = ?, qteConjuracoesMax = ?, qteConjuracoesRest = ? WHERE id = ?";
     }
 }

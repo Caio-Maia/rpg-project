@@ -60,6 +60,10 @@ public class ItemDatabaseStrategy implements DatabaseStrategy {
     public void createObjectUpdate(PreparedStatement stmt, Object data) throws SQLException {
         Item item = (Item) data;
         stmt.setString(1, item.getNome());
+        stmt.setString(2, item.getDescricao());
+        stmt.setBoolean(3, item.getTemUsos());
+        stmt.setInt(4, item.getQuantidadeUsos());
+        stmt.setInt(5, item.getQuantidade());
     }
 
     @Override
@@ -83,7 +87,7 @@ public class ItemDatabaseStrategy implements DatabaseStrategy {
     }
 
     @Override
-    public String getUpdateQuery(String attributeName) {
-        return "UPDATE Item SET " + attributeName + " = ? WHERE id = ?";
+    public String getUpdateQuery() {
+        return "UPDATE Item SET nome = ?, descricao = ?, temUsos = ?, quantidadeUsos = ?, quantidade = ? WHERE id = ?";
     }
 }
