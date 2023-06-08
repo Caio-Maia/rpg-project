@@ -19,6 +19,7 @@ public class UsuarioManager {
 		strategy = new UsuarioDatabaseStrategy();
 		connectionFactory = SQLiteConnectionFactory.getInstance();
 		persistence = persistence.getInstance(connectionFactory,strategy);
+		persistence.createTableIfNotExists(strategy);
 	}
 
 	public static UsuarioManager getInstance() {
@@ -34,7 +35,7 @@ public class UsuarioManager {
 		}
 	}
 	
-	public void addUsuario(String [] args) throws LoginInvalidException, PasswordInvalidException {
+	public void addUsuario(String [] args) throws LoginInvalidException, PasswordInvalidException, InfraException {
 		
 		UserValidador.validateName(args[0]);
 		UserValidador.validatePassword(args[1]);

@@ -14,6 +14,7 @@ public class PartidaManager {
         strategy = new PartidaDatabaseStrategy();
         connectionFactory =SQLiteConnectionFactory.getInstance();
         persistence = persistence.getInstance(connectionFactory,strategy);
+        persistence.createTableIfNotExists(strategy);
     }
 
     public static PartidaManager getInstance() {
@@ -29,7 +30,7 @@ public class PartidaManager {
         }
     }
 
-    public void addPartida(String nome, Integer usuario) {
+    public void addPartida(String nome, Integer usuario) throws InfraException {
         persistence.saveData(strategy, new Partida(nome, usuario));
     }
 

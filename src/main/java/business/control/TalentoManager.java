@@ -20,6 +20,7 @@ public class TalentoManager {
         strategy = new TalentoDatabaseStrategy();
         connectionFactory = SQLiteConnectionFactory.getInstance();
         persistence = PersistenceManager.getInstance(connectionFactory,strategy);
+        persistence.createTableIfNotExists(strategy);
     }
 
     public static TalentoManager getInstance() {
@@ -35,7 +36,7 @@ public class TalentoManager {
         }
     }
 
-    public void addTalento(String nome, String descricao, Boolean temConjuracoes, Integer qteConjuracoesMax, Integer qteConjuracoesRest) {
+    public void addTalento(String nome, String descricao, Boolean temConjuracoes, Integer qteConjuracoesMax, Integer qteConjuracoesRest) throws InfraException {
         persistence.saveData(strategy, new Talento(nome,descricao,temConjuracoes,qteConjuracoesMax,qteConjuracoesRest));
     }
 

@@ -15,7 +15,7 @@ public class ItemDatabaseStrategy implements DatabaseStrategy {
     @Override
     public void createTableIfNotExists(Connection conn) throws SQLException {
         String sql = "CREATE TABLE IF NOT EXISTS Item(id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, descricao TEXT NOT NULL,"+
-                " temUsos BOOLEAN NOT NULL CHECK (temUsos IN (0, 1)), quantidadeUsos INTEGER NOT NULL, quantidade INTEGER NOT NULL);";
+                " temUsos INTEGER NOT NULL CHECK (temUsos IN (0, 1)), quantidadeUsos INTEGER NOT NULL, quantidade INTEGER NOT NULL);";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.execute();
         }

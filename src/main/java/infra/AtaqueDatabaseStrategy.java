@@ -71,7 +71,7 @@ public class AtaqueDatabaseStrategy implements DatabaseStrategy {
 
     @Override
     public String getSaveQuery() {
-        return "INSERT INTO Arma(nome, distancia, tipoAtaque, contraAtaque, dadiPerd, dano, critico, descricao) VALUES(?,?,?,?,?,?,?,?)";
+        return "INSERT INTO Ataque(nome, distancia, tipoAtaque, contraAtaque, dadiPerd, dano, critico, descricao) VALUES(?,?,?,?,?,?,?,?)";
     }
 
     @Override

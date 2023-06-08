@@ -21,6 +21,7 @@ public class StatusManager {
         strategy = new StatusDatabaseStrategy();
         connectionFactory = SQLiteConnectionFactory.getInstance();
         persistence = PersistenceManager.getInstance(connectionFactory,strategy);
+        persistence.createTableIfNotExists(strategy);
     }
 
     public static StatusManager getInstance() {
@@ -36,7 +37,7 @@ public class StatusManager {
         }
     }
 
-    public void addStatus(Atributo atributo, String valor, Boolean temModificador) {
+    public void addStatus(Atributo atributo, String valor, Boolean temModificador) throws InfraException {
         persistence.saveData(strategy, new Status(atributo, valor, temModificador));
     }
 

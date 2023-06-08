@@ -20,6 +20,7 @@ public class ArmaManager {
         strategy = new ArmaDatabaseStrategy();
         connectionFactory = SQLiteConnectionFactory.getInstance();
         persistence = PersistenceManager.getInstance(connectionFactory,strategy);
+        persistence.createTableIfNotExists(strategy);
     }
 
     public static ArmaManager getInstance() {
@@ -35,7 +36,7 @@ public class ArmaManager {
         }
     }
 
-    public void addArma(String nome, String requisito, Atributo atributo, String dano, String propriedades) {
+    public void addArma(String nome, String requisito, Atributo atributo, String dano, String propriedades) throws InfraException {
         persistence.saveData(strategy, new Arma(nome, requisito, atributo, dano, propriedades));
     }
 

@@ -1,6 +1,7 @@
 package main.java.view.commands.statusCommands;
 
 import main.java.business.model.enums.Atributo;
+import main.java.infra.InfraException;
 import main.java.view.MainScreenDesktop;
 import main.java.view.commands.Command;
 
@@ -20,7 +21,11 @@ public class CriarStatusCommand implements Command {
 
     @Override
     public void execute() {
-        mainScreen.getStatusManager().addStatus(Atributo.valueOf(atributo),valor,temModificador);
-        JOptionPane.showMessageDialog(null, "Status criado com sucesso!");
+        try {
+            mainScreen.getStatusManager().addStatus(Atributo.valueOf(atributo), valor, temModificador);
+            JOptionPane.showMessageDialog(null, "Status criado com sucesso!");
+        } catch (InfraException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
 }

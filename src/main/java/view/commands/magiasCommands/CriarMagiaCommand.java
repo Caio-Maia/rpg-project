@@ -2,6 +2,7 @@ package main.java.view.commands.magiasCommands;
 
 import main.java.business.model.enums.TipoAtaque;
 import main.java.business.model.enums.TipoMagia;
+import main.java.infra.InfraException;
 import main.java.view.MainScreenDesktop;
 import main.java.view.commands.Command;
 
@@ -31,7 +32,11 @@ public class CriarMagiaCommand implements Command {
 
     @Override
     public void execute() {
-        mainScreen.getMagiaManager().addMagia(nome,tradicao, TipoMagia.valueOf(tipoMagia),nivel,alvo,dano,critico,duracao,efeito,descricao, TipoAtaque.valueOf(tipoAtaque),TipoAtaque.valueOf(contraAtaque),qteConjRest);
-        JOptionPane.showMessageDialog(null, "Magia criada com sucesso!");
+        try {
+            mainScreen.getMagiaManager().addMagia(nome, tradicao, TipoMagia.valueOf(tipoMagia), nivel, alvo, dano, critico, duracao, efeito, descricao, TipoAtaque.valueOf(tipoAtaque), TipoAtaque.valueOf(contraAtaque), qteConjRest);
+            JOptionPane.showMessageDialog(null, "Magia criada com sucesso!");
+        } catch (InfraException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
 }

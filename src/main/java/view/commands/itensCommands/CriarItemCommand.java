@@ -1,5 +1,6 @@
 package main.java.view.commands.itensCommands;
 
+import main.java.infra.InfraException;
 import main.java.view.MainScreenDesktop;
 import main.java.view.commands.Command;
 
@@ -22,7 +23,11 @@ public class CriarItemCommand implements Command {
 
     @Override
     public void execute() {
-        mainScreen.getItemManager().addItem(nome,descricao,temUsos,quatidadeUsos,quantidade);
-        JOptionPane.showMessageDialog(null, "Item criado com sucesso!");
+        try {
+            mainScreen.getItemManager().addItem(nome, descricao, temUsos, quatidadeUsos, quantidade);
+            JOptionPane.showMessageDialog(null, "Item criado com sucesso!");
+        } catch (InfraException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
 }

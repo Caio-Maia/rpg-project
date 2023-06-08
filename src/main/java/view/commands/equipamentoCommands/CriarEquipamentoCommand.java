@@ -1,5 +1,6 @@
 package main.java.view.commands.equipamentoCommands;
 
+import main.java.infra.InfraException;
 import main.java.view.MainScreenDesktop;
 import main.java.view.commands.Command;
 
@@ -18,7 +19,11 @@ public class CriarEquipamentoCommand implements Command {
 
     @Override
     public void execute() {
-        mainScreen.getEquipamentoManager().addEquipamento(nome,defesa,requisito);
-        JOptionPane.showMessageDialog(null, "Equipamento criado com sucesso!");
+        try {
+            mainScreen.getEquipamentoManager().addEquipamento(nome, defesa, requisito);
+            JOptionPane.showMessageDialog(null, "Equipamento criado com sucesso!");
+        } catch (InfraException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
 }

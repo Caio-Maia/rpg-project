@@ -1,6 +1,7 @@
 package main.java.view.commands.armasCommands;
 
 import main.java.business.model.enums.Atributo;
+import main.java.infra.InfraException;
 import main.java.view.MainScreenDesktop;
 import main.java.view.commands.Command;
 
@@ -24,7 +25,11 @@ public class CriarArmaCommand implements Command {
 
     @Override
     public void execute() {
-        mainScreen.getArmaManager().addArma(nome,requisito, Atributo.valueOf(atributo),dano,propriedade);
-        JOptionPane.showMessageDialog(null, "Arma criada com sucesso!");
+        try {
+            mainScreen.getArmaManager().addArma(nome, requisito, Atributo.valueOf(atributo), dano, propriedade);
+            JOptionPane.showMessageDialog(null, "Arma criada com sucesso!");
+        } catch (InfraException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
 }

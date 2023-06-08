@@ -20,6 +20,7 @@ public class ItemManager {
         strategy = new ItemDatabaseStrategy();
         connectionFactory = SQLiteConnectionFactory.getInstance();
         persistence = PersistenceManager.getInstance(connectionFactory,strategy);
+        persistence.createTableIfNotExists(strategy);
     }
 
     public static ItemManager getInstance() {
@@ -35,7 +36,7 @@ public class ItemManager {
         }
     }
 
-    public void addItem(String nome, String descricao, Boolean temUsos, Integer quantidadeUsos, Integer quantidade) {
+    public void addItem(String nome, String descricao, Boolean temUsos, Integer quantidadeUsos, Integer quantidade) throws InfraException {
         persistence.saveData(strategy, new Item(nome, descricao, temUsos, quantidadeUsos, quantidade));
     }
 

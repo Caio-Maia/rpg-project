@@ -21,6 +21,7 @@ public class AtaqueManager {
         strategy = new AtaqueDatabaseStrategy();
         connectionFactory = SQLiteConnectionFactory.getInstance();
         persistence = PersistenceManager.getInstance(connectionFactory,strategy);
+        persistence.createTableIfNotExists(strategy);
     }
 
     public static AtaqueManager getInstance() {
@@ -36,7 +37,7 @@ public class AtaqueManager {
         }
     }
 
-    public void addAtaque(String nome, String distancia, TipoAtaque tipoAtaque, TipoAtaque contraAtaque, Integer dadiPerd, String dano, String critico, String descricao) {
+    public void addAtaque(String nome, String distancia, TipoAtaque tipoAtaque, TipoAtaque contraAtaque, Integer dadiPerd, String dano, String critico, String descricao) throws InfraException {
         persistence.saveData(strategy, new Ataque(nome,distancia,tipoAtaque,contraAtaque,dadiPerd,dano,critico,descricao));
     }
 

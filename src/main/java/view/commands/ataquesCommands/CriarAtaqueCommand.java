@@ -1,6 +1,7 @@
 package main.java.view.commands.ataquesCommands;
 
 import main.java.business.model.enums.TipoAtaque;
+import main.java.infra.InfraException;
 import main.java.view.MainScreenDesktop;
 import main.java.view.commands.Command;
 
@@ -32,7 +33,11 @@ public class CriarAtaqueCommand implements Command {
 
     @Override
     public void execute() {
-        mainScreen.getAtaqueManager().addAtaque(nome,distancia,TipoAtaque.valueOf(tipoAtaque),TipoAtaque.valueOf(contraAtaque),dadiPerd,dano,critico,descricao);
-        JOptionPane.showMessageDialog(null, "Ataque criado com sucesso!");
+        try {
+            mainScreen.getAtaqueManager().addAtaque(nome, distancia, TipoAtaque.valueOf(tipoAtaque), TipoAtaque.valueOf(contraAtaque), dadiPerd, dano, critico, descricao);
+            JOptionPane.showMessageDialog(null, "Ataque criado com sucesso!");
+        } catch (InfraException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
 }

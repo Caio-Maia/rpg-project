@@ -1,11 +1,13 @@
 package main.java.view.commands.usuariosCommands;
 
+import main.java.infra.InfraException;
 import main.java.util.LoginInvalidException;
 import main.java.util.PasswordInvalidException;
 import main.java.view.MainScreenDesktop;
 import main.java.view.commands.Command;
 
 import javax.swing.*;
+import java.sql.SQLException;
 
 public class CadastrarUsuarioCommand implements Command {
     private MainScreenDesktop mainScreen;
@@ -25,6 +27,8 @@ public class CadastrarUsuarioCommand implements Command {
             JOptionPane.showMessageDialog(null,e.getMessage());
         } catch (PasswordInvalidException e) {
             JOptionPane.showMessageDialog(null,e.getMessage());
+        } catch (InfraException ex) {
+            JOptionPane.showMessageDialog(null, "Nome de usuário inválido, tente outro!");
         }
     }
 }

@@ -1,5 +1,6 @@
 package main.java.view.commands.partidasCommands;
 
+import main.java.infra.InfraException;
 import main.java.view.MainScreenDesktop;
 import main.java.view.commands.Command;
 
@@ -17,7 +18,11 @@ public class CriarPartidaCommand implements Command {
     }
 
     public void execute(){
-        mainScreen.getPartidaManager().addPartida(nome,mestre);
-        JOptionPane.showMessageDialog(null, "Partida criada com sucesso!");
+        try {
+            mainScreen.getPartidaManager().addPartida(nome, mestre);
+            JOptionPane.showMessageDialog(null, "Partida criada com sucesso!");
+        } catch (InfraException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
 }

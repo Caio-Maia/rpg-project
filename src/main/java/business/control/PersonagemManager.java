@@ -18,6 +18,7 @@ public class PersonagemManager {
         strategy = new PersonagemDatabaseStrategy();
         connectionFactory = SQLiteConnectionFactory.getInstance();
         persistence = persistence.getInstance(connectionFactory,strategy);
+        persistence.createTableIfNotExists(strategy);
     }
 
     public static PersonagemManager getInstance() {
@@ -33,7 +34,7 @@ public class PersonagemManager {
         }
     }
 
-    public void addPersonagem(Integer usuario, String nome, Integer partida, String ancestralidade, String classe, String dinheiro, List<Integer> statusesId, List<Integer> equipamentosId, List<Integer> itensId, List<Integer> talentosId) {
+    public void addPersonagem(Integer usuario, String nome, Integer partida, String ancestralidade, String classe, String dinheiro, List<Integer> statusesId, List<Integer> equipamentosId, List<Integer> itensId, List<Integer> talentosId) throws InfraException {
         persistence.saveData(strategy,new Personagem(usuario, nome, partida, ancestralidade, classe, dinheiro, statusesId, equipamentosId, itensId, talentosId));
     }
 

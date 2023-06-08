@@ -22,6 +22,7 @@ public class MagiaManager {
         strategy = new MagiaDatabaseStrategy();
         connectionFactory = SQLiteConnectionFactory.getInstance();
         persistence = PersistenceManager.getInstance(connectionFactory,strategy);
+        persistence.createTableIfNotExists(strategy);
     }
 
     public static MagiaManager getInstance() {
@@ -37,7 +38,7 @@ public class MagiaManager {
         }
     }
 
-    public void addMagia(String nome, String tradicao, TipoMagia tipoMagia, Integer nivel, String alvo, String dano, String critico, String duracao, String efeito, String descricao, TipoAtaque tipoAtaque, TipoAtaque contraAtaque, Integer qteConjuracoesRest) {
+    public void addMagia(String nome, String tradicao, TipoMagia tipoMagia, Integer nivel, String alvo, String dano, String critico, String duracao, String efeito, String descricao, TipoAtaque tipoAtaque, TipoAtaque contraAtaque, Integer qteConjuracoesRest) throws InfraException {
         persistence.saveData(strategy, new Magia(nome, tradicao, tipoMagia, nivel, alvo, dano, critico, duracao, efeito, descricao, tipoAtaque, contraAtaque, qteConjuracoesRest));
     }
 
