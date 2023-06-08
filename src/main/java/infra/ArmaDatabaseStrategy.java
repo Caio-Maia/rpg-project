@@ -64,7 +64,7 @@ public class ArmaDatabaseStrategy implements DatabaseStrategy {
 
     @Override
     public String getSaveQuery() {
-        return "INSERT INTO Arma(nome, requisito, atributo, dano, propriedade) VALUES(?,?,?,?,?)";
+        return "INSERT INTO Arma(nome, requisito, atributo, dano, propriedades) VALUES(?,?,?,?,?)";
     }
 
     @Override
