@@ -49,7 +49,7 @@ public class MagiasScreenState extends JFrame implements ScreenState {
 
         atualizar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                screen.setScreenState(new AtualizarMagiaScreenState());
             }
         });
 

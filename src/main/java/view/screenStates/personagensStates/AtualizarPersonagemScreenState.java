@@ -47,8 +47,8 @@ public class AtualizarPersonagemScreenState extends JFrame implements ScreenStat
                 String nome = textNome.getText();
                 Integer partida = Integer.parseInt(textPartida.getText());
 
-                Command atualizarPersonagemCommand = new AtualizarPersonagemCommand(screen,nome,partida);
-                atualizarPersonagemCommand.execute();
+                //Command atualizarPersonagemCommand = new AtualizarPersonagemCommand(screen,nome,partida);
+                //atualizarPersonagemCommand.execute();
             }
         });
 

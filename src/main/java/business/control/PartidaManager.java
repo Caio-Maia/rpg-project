@@ -3,6 +3,7 @@ package main.java.business.control;
 import main.java.business.model.Partida;
 import main.java.infra.*;
 
+import java.util.List;
 import java.util.Map;
 
 public class PartidaManager {
@@ -37,6 +38,11 @@ public class PartidaManager {
     public Map<Integer, Partida> getAllPartidas() throws InfraException {
         Map<Integer, Partida> mylist = persistence.loadData(strategy);
         return mylist;
+    }
+
+    public Map<Integer, Partida> getPartidasByIds(List<Integer> ids) {
+        Map<Integer, Partida> mylist = persistence.loadDataByListOfIds(ids);
+        return  mylist;
     }
 
     public void updatePartida(int id, Partida partida) {

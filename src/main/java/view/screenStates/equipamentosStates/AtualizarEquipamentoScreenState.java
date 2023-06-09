@@ -1,10 +1,10 @@
-package main.java.view.screenStates.partidasStates;
+package main.java.view.screenStates.equipamentosStates;
 
-import main.java.business.model.Partida;
+import main.java.business.model.Equipamento;
 import main.java.view.MainScreenDesktop;
 import main.java.view.commands.Command;
 import main.java.view.commands.VoltarTelaCommand;
-import main.java.view.commands.partidasCommands.AtualizarPartidaCommand;
+import main.java.view.commands.equipamentoCommands.AtualizarEquipamentoCommand;
 import main.java.view.screenStates.ScreenState;
 
 import javax.swing.*;
@@ -18,23 +18,26 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class AtualizarPartidaScreenState extends JFrame implements ScreenState {
-    private JTextField textNome;
-    private JTextField textId;
-    private JLabel labelNome;
+public class AtualizarEquipamentoScreenState extends JFrame implements ScreenState {
+    private JLabel labelNome,labelDefesa,labelRequisito;
+    private JTextField textId,textNome,textDefesa,textRequisito;
     private JButton atualizarBtn;
-    private Integer criador;
+
     @Override
     public void handleTela(MainScreenDesktop screen) {
-        setTitle("Atualizar partida");
+        setTitle("Atualizar Equipamento");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300, 150);
         setLocationRelativeTo(null);
 
-        JLabel labelId= new JLabel("Id da partida:");
-        textId = new JTextField(5);
-        labelNome= new JLabel("Nome da partida:");
+        JLabel labelId = new JLabel("Id do equipamento:");
+        labelNome= new JLabel("Nome do Equipamento:");
+        labelDefesa = new JLabel("Defesa:");
+        labelRequisito = new JLabel("Requisito:");
+
         textNome = new JTextField(20);
+        textDefesa = new JTextField(20);
+        textRequisito = new JTextField(20);
 
         atualizarBtn = new JButton("Atualizar");
         JButton VoltarBtn = new JButton("Voltar");
@@ -77,13 +80,15 @@ public class AtualizarPartidaScreenState extends JFrame implements ScreenState {
 
         atualizarBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String nome = textNome.getText();
                 Integer id = Integer.parseInt(textId.getText());
+                String nome = textNome.getText();
+                String defesa = textDefesa.getText();
+                String requisito = textRequisito.getText();
 
-                Partida partida = new Partida(nome,criador);
+                Equipamento equipamento = new Equipamento(nome,defesa,requisito);
 
-                Command atualizarPartidaCommand = new AtualizarPartidaCommand(screen,id,partida);
-                atualizarPartidaCommand.execute();
+                Command atualizarEquipamentoCommand = new AtualizarEquipamentoCommand(screen,id,equipamento);
+                atualizarEquipamentoCommand.execute();
             }
         });
 
@@ -95,36 +100,45 @@ public class AtualizarPartidaScreenState extends JFrame implements ScreenState {
         });
     }
 
-    private void desmontaTela(JPanel panel) {
-        panel.remove(labelNome);
-        panel.remove(textNome);
-
-        panel.remove(atualizarBtn);
-        panel.updateUI();
-    }
-
     private void busca(Integer textoDigitado, MainScreenDesktop screen, JPanel panel) {
         List ids = new ArrayList<>();
         ids.add(textoDigitado);
-        Map<Integer, Partida> lista = screen.getPartidaManager().getPartidasByIds(ids);
-        Partida partida = null;
+        Map<Integer, Equipamento> lista = screen.getEquipamentoManager().getEquipamentosByIds(ids);
+        Equipamento equipamento = null;
         if (!lista.isEmpty()) {
-            Iterator<Partida> iterator = lista.values().iterator();
+            Iterator<Equipamento> iterator = lista.values().iterator();
             if (iterator.hasNext()) {
-                partida = iterator.next();
-                montarTela(panel,partida);
+                equipamento = iterator.next();
+                montarTela(panel,equipamento);
             }
         }
     }
 
-    private void montarTela(JPanel panel, Partida partida) {
-        textNome.setText(partida.getNome());
-        criador = partida.getMestre();
+    private void montarTela(JPanel panel, Equipamento equipamento) {
+        textNome.setText(equipamento.getNome());
+        textDefesa.setText(equipamento.getDefesa());
+        textRequisito.setText(equipamento.getRequisito());
 
         panel.add(labelNome);
         panel.add(textNome);
+        panel.add(labelDefesa);
+        panel.add(textDefesa);
+        panel.add(labelRequisito);
+        panel.add(textRequisito);
 
         panel.add(atualizarBtn);
+        panel.updateUI();
+    }
+
+    private void desmontaTela(JPanel panel) {
+        panel.remove(labelNome);
+        panel.remove(textNome);
+        panel.remove(labelDefesa);
+        panel.remove(textDefesa);
+        panel.remove(labelRequisito);
+        panel.remove(textRequisito);
+
+        panel.remove(atualizarBtn);
         panel.updateUI();
     }
 
@@ -132,5 +146,4 @@ public class AtualizarPartidaScreenState extends JFrame implements ScreenState {
     public void fechaTela() {
         setVisible(false);
     }
-
 }

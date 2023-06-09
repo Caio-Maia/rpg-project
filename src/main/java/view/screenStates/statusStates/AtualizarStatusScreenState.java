@@ -1,10 +1,11 @@
-package main.java.view.screenStates.partidasStates;
+package main.java.view.screenStates.statusStates;
 
-import main.java.business.model.Partida;
+import main.java.business.model.Status;
+import main.java.business.model.enums.Atributo;
 import main.java.view.MainScreenDesktop;
 import main.java.view.commands.Command;
 import main.java.view.commands.VoltarTelaCommand;
-import main.java.view.commands.partidasCommands.AtualizarPartidaCommand;
+import main.java.view.commands.statusCommands.AtualizarStatusCommand;
 import main.java.view.screenStates.ScreenState;
 
 import javax.swing.*;
@@ -18,23 +19,26 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class AtualizarPartidaScreenState extends JFrame implements ScreenState {
-    private JTextField textNome;
-    private JTextField textId;
-    private JLabel labelNome;
+public class AtualizarStatusScreenState extends JFrame implements ScreenState {
+    private JTextField textId,textValor;
+    private JLabel labelValor;
+    private JCheckBox checkBox;
     private JButton atualizarBtn;
-    private Integer criador;
+    private Atributo atributo;
+
     @Override
     public void handleTela(MainScreenDesktop screen) {
-        setTitle("Atualizar partida");
+        setTitle("Atualizar Status");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300, 150);
         setLocationRelativeTo(null);
 
-        JLabel labelId= new JLabel("Id da partida:");
+        checkBox = new JCheckBox("Tem Modificador?");
+
+        JLabel labelId= new JLabel("Id do Status:");
+        labelValor = new JLabel("Valor:");
         textId = new JTextField(5);
-        labelNome= new JLabel("Nome da partida:");
-        textNome = new JTextField(20);
+        textValor = new JTextField(5);
 
         atualizarBtn = new JButton("Atualizar");
         JButton VoltarBtn = new JButton("Voltar");
@@ -77,13 +81,20 @@ public class AtualizarPartidaScreenState extends JFrame implements ScreenState {
 
         atualizarBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String nome = textNome.getText();
                 Integer id = Integer.parseInt(textId.getText());
+                String valor = textValor.getText();
+                Boolean temModificador;
 
-                Partida partida = new Partida(nome,criador);
+                if (checkBox.isSelected()){
+                    temModificador = true;
+                }else {
+                    temModificador = false;
+                }
 
-                Command atualizarPartidaCommand = new AtualizarPartidaCommand(screen,id,partida);
-                atualizarPartidaCommand.execute();
+                Status status = new Status(atributo,valor,temModificador);
+
+                Command atualizarStatusCommand = new AtualizarStatusCommand(screen,id,status);
+                atualizarStatusCommand.execute();
             }
         });
 
@@ -93,38 +104,42 @@ public class AtualizarPartidaScreenState extends JFrame implements ScreenState {
                 voltarTelaCommand.execute();
             }
         });
-    }
 
-    private void desmontaTela(JPanel panel) {
-        panel.remove(labelNome);
-        panel.remove(textNome);
-
-        panel.remove(atualizarBtn);
-        panel.updateUI();
     }
 
     private void busca(Integer textoDigitado, MainScreenDesktop screen, JPanel panel) {
         List ids = new ArrayList<>();
         ids.add(textoDigitado);
-        Map<Integer, Partida> lista = screen.getPartidaManager().getPartidasByIds(ids);
-        Partida partida = null;
+        Map<Integer, Status> lista = screen.getStatusManager().getStatusesByIds(ids);
+        Status status = null;
         if (!lista.isEmpty()) {
-            Iterator<Partida> iterator = lista.values().iterator();
+            Iterator<Status> iterator = lista.values().iterator();
             if (iterator.hasNext()) {
-                partida = iterator.next();
-                montarTela(panel,partida);
+                status = iterator.next();
+                montarTela(panel,status);
             }
         }
     }
 
-    private void montarTela(JPanel panel, Partida partida) {
-        textNome.setText(partida.getNome());
-        criador = partida.getMestre();
+    private void montarTela(JPanel panel, Status status){
+        atributo = status.getAtributo();
+        textValor.setText(status.getValor());
+        checkBox.setSelected(status.getTemModificador());
 
-        panel.add(labelNome);
-        panel.add(textNome);
+        panel.add(labelValor);
+        panel.add(textValor);
+        panel.add(checkBox);
 
         panel.add(atualizarBtn);
+        panel.updateUI();
+    }
+
+    private void desmontaTela(JPanel panel){
+        panel.remove(labelValor);
+        panel.remove(textValor);
+        panel.remove(checkBox);
+
+        panel.remove(atualizarBtn);
         panel.updateUI();
     }
 
@@ -132,5 +147,4 @@ public class AtualizarPartidaScreenState extends JFrame implements ScreenState {
     public void fechaTela() {
         setVisible(false);
     }
-
 }
