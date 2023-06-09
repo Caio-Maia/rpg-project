@@ -10,18 +10,17 @@ public class Partida implements Serializable {
     private Integer id;
     private String nome;
     private Integer mestre;
-    private List<Personagem> personagens;
+
+    public Partida() {}
 
     public Partida(String nome, Integer criador) {
         this.nome = nome;
         this.mestre = criador;
-        this.personagens = new ArrayList<>();
     }
 
     public Partida(Integer id, String nome, Integer criador) {
         this.nome = nome;
         this.mestre = criador;
-        this.personagens = new ArrayList<>();
         this.id = id;
     }
     public String getNome() {
@@ -34,17 +33,5 @@ public class Partida implements Serializable {
 
     public Integer getId() {
         return id;
-    }
-
-    public List<Personagem> getPersonagens() {
-        return personagens;
-    }
-
-    public void adicionarPersonagem(Integer criador, String nome) {
-        if (criador != this.mestre && personagens.size() > 0) {
-            System.out.println("Você já adicionou um personagem nesta partida.");
-        }
-        Personagem personagem = new Personagem(criador, nome, this.id);
-        personagens.add(personagem);
     }
 }

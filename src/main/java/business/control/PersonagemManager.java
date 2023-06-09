@@ -1,11 +1,9 @@
 package main.java.business.control;
 
-import main.java.business.model.Partida;
 import main.java.business.model.Personagem;
-import main.java.business.model.Usuario;
 import main.java.infra.*;
 
-import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 public class PersonagemManager {
@@ -20,6 +18,7 @@ public class PersonagemManager {
         strategy = new PersonagemDatabaseStrategy();
         connectionFactory = SQLiteConnectionFactory.getInstance();
         persistence = persistence.getInstance(connectionFactory,strategy);
+        persistence.createTableIfNotExists(strategy);
     }
 
     public static PersonagemManager getInstance() {
@@ -35,12 +34,25 @@ public class PersonagemManager {
         }
     }
 
-    public void addPersonagem(Integer usuario, String nome, Integer partida) {
-        persistence.saveData(strategy,new Personagem(usuario, nome, partida));
+    public void addPersonagem(Integer usuario, String nome, Integer partida, String ancestralidade, String classe, String dinheiro, List<Integer> statusesId, List<Integer> equipamentosId, List<Integer> itensId, List<Integer> talentosId) throws InfraException {
+        persistence.saveData(strategy,new Personagem(usuario, nome, partida, ancestralidade, classe, dinheiro, statusesId, equipamentosId, itensId, talentosId));
     }
 
     public Map<Integer, Personagem> getAllPersonagens() throws InfraException {
         Map<Integer, Personagem> mylist = persistence.loadData(strategy);
         return mylist;
+    }
+
+    public Map<Integer, Personagem> getPersonagensByIds(List<Integer>ids) {
+        Map<Integer, Personagem> mylist = persistence.loadDataByListOfIds(ids);
+        return  mylist;
+    }
+
+    public void updatePersonagem(int id, Personagem personagem) {
+        persistence.updateData(strategy, id, personagem);
+    }
+
+    public void deletePersonagem(int id) {
+        persistence.deleteData(strategy, id);
     }
 }

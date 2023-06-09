@@ -1,14 +1,13 @@
 package main.java.infra;
 
+import org.sqlite.SQLiteErrorCode;
+
+import java.sql.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 
 
 public class PersistenceManager {
@@ -18,18 +17,12 @@ public class PersistenceManager {
     private static volatile PersistenceManager instance;
 
     private PersistenceManager(ConnectionFactory connectionFactory,DatabaseStrategy strategy) {
-        try {
-            conn = connectionFactory.getConnection();
-            this.strategy = strategy;
-            createTableIfNotExists();
-            Runtime.getRuntime().addShutdownHook(new Thread(this::close));
-        } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Erro ao criar conexão com o Banco de Dados", ex);
-            logger.log(Level.SEVERE, "Detalhes: " + ex.getMessage());
-        }
+        conn = connectionFactory.getConnection();
+        this.strategy = strategy;
+        Runtime.getRuntime().addShutdownHook(new Thread(this::close));
     }
 
-    private void createTableIfNotExists() throws SQLException {
+    public void createTableIfNotExists(DatabaseStrategy strategy) {
         try {
             strategy.createTableIfNotExists(conn);
         } catch (SQLException ex) {
@@ -51,14 +44,19 @@ public class PersistenceManager {
         }
     }
 
-    public <T> void saveData(DatabaseStrategy strategy, T data) {
+    public <T> void saveData(DatabaseStrategy strategy, T data) throws InfraException{
         String sql = strategy.getSaveQuery();
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             strategy.setSaveParameters(stmt, data);
             stmt.executeUpdate();
-        } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Erro ao tentar salvar dados", ex);
-            logger.log(Level.SEVERE, "Detalhes:" + ex.getMessage());
+        }
+        catch (SQLException ex) {
+            if (ex.getErrorCode() == SQLiteErrorCode.SQLITE_CONSTRAINT.code) {
+                throw new InfraException("Erro de constrains ao tentar salvar o dado:\n"+ex.getMessage());
+            } else {
+                logger.log(Level.SEVERE, "Erro ao tentar salvar dados", ex);
+                logger.log(Level.SEVERE, "Detalhes:" + ex.getMessage());
+            }
         }
     }
 
@@ -97,6 +95,20 @@ public class PersistenceManager {
             logger.log(Level.SEVERE, "Erro deletar informação", ex);
             logger.log(Level.SEVERE, "Detalhes: " + ex.getMessage());
         }
+    }
+
+    public <T> Map<Integer, T> loadDataByListOfIds(List<Integer> ids) {
+        String sql = strategy.getLoadByListOfIdsQuery(ids);
+        Map<Integer, T> dataMap;
+        try (PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            dataMap = strategy.loadData(rs);
+        } catch (SQLException ex) {
+            dataMap = new HashMap<>();
+            logger.log(Level.SEVERE, "Erro ao tentar carregar dados do Banco", ex);
+            logger.log(Level.SEVERE, "Detalhes: " + ex.getMessage());
+        }
+        return dataMap;
     }
 
     public void close() {

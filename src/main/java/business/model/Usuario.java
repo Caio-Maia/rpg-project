@@ -22,6 +22,9 @@ public class Usuario implements Serializable {
         this.id = id;
     }
 
+    public Usuario() {
+    }
+
     public int getId() {
         return id;
     }

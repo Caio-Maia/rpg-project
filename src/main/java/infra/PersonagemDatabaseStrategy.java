@@ -5,13 +5,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PersonagemDatabaseStrategy implements DatabaseStrategy{
     @Override
     public void createTableIfNotExists(Connection conn) throws SQLException {
-        String sql = "CREATE TABLE IF NOT EXISTS Personagens (id INTEGER PRIMARY KEY AUTOINCREMENT,usuario INTEGER NOT NULL,nome TEXT NOT NULL, partida INTEGER NOT NULL, FOREIGN KEY(partida) REFERENCES Partidas(id),FOREIGN KEY(usuario) REFERENCES Usuarios(id));";
+        String sql = "CREATE TABLE IF NOT EXISTS Personagens (id INTEGER PRIMARY KEY AUTOINCREMENT,usuario INTEGER NOT NULL,nome TEXT NOT NULL, partida INTEGER NOT NULL, ancestralidade TEXT NOT NULL, classe TEXT NOT NULL, dinheiro TEXT NOT NULL, statusesId TEXT NOT NULL, equipamentosId TEXT NOT NULL, itensId TEXT NOT NULL, talentosId TEXT NOT NULL, FOREIGN KEY(partida) REFERENCES Partidas(id),FOREIGN KEY(usuario) REFERENCES Usuarios(id));";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.execute();
         }
@@ -24,6 +24,13 @@ public class PersonagemDatabaseStrategy implements DatabaseStrategy{
         stmt.setInt(1, personagem.getCriador());
         stmt.setString(2, personagem.getNome());
         stmt.setInt(3, personagem.getPartida());
+        stmt.setString(4, personagem.getAncestralidade());
+        stmt.setString(5, personagem.getClasse());
+        stmt.setString(6, personagem.getDinheiro());
+        stmt.setString(7, personagem.getStatusesId().toString());
+        stmt.setString(8, personagem.getEquipamentosId().toString());
+        stmt.setString(9, personagem.getItensId().toString());
+        stmt.setString(10, personagem.getTalentosId().toString());
     }
 
     @Override
@@ -42,8 +49,23 @@ public class PersonagemDatabaseStrategy implements DatabaseStrategy{
         int usuario = rs.getInt("usuario");
         String nome = rs.getString("nome");
         int partida = rs.getInt("partida");
+        String ancestralidade = rs.getString("ancestralidade");
+        String classe = rs.getString("classe");
+        String dinheiro = rs.getString("dinheiro");
+        List<Integer> statusesId = Arrays.stream(rs.getString("statusesId").replaceAll(" ","").replaceAll("[\\[\\]]", "").split(","))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+        List<Integer> equipamentosId = Arrays.stream(rs.getString("equipamentosId").replaceAll(" ","").replaceAll("[\\[\\]]", "").split(","))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+        List<Integer> itensId = Arrays.stream(rs.getString("itensId").replaceAll(" ","").replaceAll("[\\[\\]]", "").split(","))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+        List<Integer> talentosId = Arrays.stream(rs.getString("talentosId").replaceAll(" ","").replaceAll("[\\[\\]]", "").split(","))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
 
-        T data = (T) new Personagem(id, usuario, nome, partida);
+        T data = (T) new Personagem(id, usuario, nome, partida, ancestralidade, classe, dinheiro, statusesId, equipamentosId, itensId, talentosId);
         return data;
     }
 
@@ -51,15 +73,27 @@ public class PersonagemDatabaseStrategy implements DatabaseStrategy{
     public void createObjectUpdate(PreparedStatement stmt, Object data) throws SQLException {
         Personagem personagem = (Personagem) data;
         stmt.setString(1, personagem.getNome());
+        stmt.setString(2, personagem.getAncestralidade());
+        stmt.setString(3, personagem.getClasse());
+        stmt.setString(4, personagem.getDinheiro());
+        stmt.setString(5, personagem.getStatusesId().toString());
+        stmt.setString(6, personagem.getEquipamentosId().toString());
+        stmt.setString(7, personagem.getItensId().toString());
+        stmt.setString(8, personagem.getTalentosId().toString());
     }
     @Override
     public String getSaveQuery() {
-        return "INSERT INTO Personagens(usuario, nome, partida) VALUES(?,?,?)";
+        return "INSERT INTO Personagens(usuario, nome, partida, ancestralidade, classe, dinheiro, statusesId, equipamentosId, itensId, talentosId) VALUES(?,?,?,?,?,?,?,?,?,?)";
     }
 
     @Override
     public String getLoadQuery() {
         return "SELECT * FROM Personagens";
+    }
+
+    @Override
+    public String getLoadByListOfIdsQuery(List<Integer> ids) {
+        return "SELECT * FROM Personagens WHERE id IN (" + ids.toString().replaceAll("[\\[\\]]", "") + ")";
     }
 
     @Override
@@ -69,7 +103,7 @@ public class PersonagemDatabaseStrategy implements DatabaseStrategy{
 
     @Override
     public String getUpdateQuery() {
-        return "UPDATE Personagens SET nome = ? WHERE id = ?";
+        return "UPDATE Personagens SET nome = ?, ancestralidade = ?, classe = ?, dinheiro = ?, statusesId = ?, equipamentosId = ?, itensId = ?, talentosId = ?  WHERE id = ?";
     }
 
 }

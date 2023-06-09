@@ -1,10 +1,9 @@
 package main.java.business.control;
 
 import main.java.business.model.Partida;
-import main.java.business.model.Usuario;
 import main.java.infra.*;
 
-import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 public class PartidaManager {
@@ -16,6 +15,7 @@ public class PartidaManager {
         strategy = new PartidaDatabaseStrategy();
         connectionFactory =SQLiteConnectionFactory.getInstance();
         persistence = persistence.getInstance(connectionFactory,strategy);
+        persistence.createTableIfNotExists(strategy);
     }
 
     public static PartidaManager getInstance() {
@@ -31,12 +31,25 @@ public class PartidaManager {
         }
     }
 
-    public void addPartida(String nome, Integer usuario) {
+    public void addPartida(String nome, Integer usuario) throws InfraException {
         persistence.saveData(strategy, new Partida(nome, usuario));
     }
 
     public Map<Integer, Partida> getAllPartidas() throws InfraException {
         Map<Integer, Partida> mylist = persistence.loadData(strategy);
         return mylist;
+    }
+
+    public Map<Integer, Partida> getPartidasByIds(List<Integer> ids) {
+        Map<Integer, Partida> mylist = persistence.loadDataByListOfIds(ids);
+        return  mylist;
+    }
+
+    public void updatePartida(int id, Partida partida) {
+        persistence.updateData(strategy, id, partida);
+    }
+
+    public void deletePartida(int id) {
+        persistence.deleteData(strategy, id);
     }
 }

@@ -6,12 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UsuarioDatabaseStrategy implements DatabaseStrategy {
     @Override
     public void createTableIfNotExists(Connection conn) throws SQLException {
-        String sql = "CREATE TABLE IF NOT EXISTS Usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, senha TEXT NOT NULL);";
+        String sql = "CREATE TABLE IF NOT EXISTS Usuarios(id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT UNIQUE NOT NULL, senha TEXT NOT NULL);";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.execute();
         }
@@ -58,6 +59,11 @@ public class UsuarioDatabaseStrategy implements DatabaseStrategy {
     @Override
     public String getLoadQuery() {
         return "SELECT * FROM Usuarios";
+    }
+
+    @Override
+    public String getLoadByListOfIdsQuery(List<Integer> ids) {
+        return "SELECT * FROM Usuarios WHERE id IN (" + ids.toString().replaceAll("[\\[\\]]", "") + ")";
     }
 
     @Override
