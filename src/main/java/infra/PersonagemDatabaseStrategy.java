@@ -52,16 +52,16 @@ public class PersonagemDatabaseStrategy implements DatabaseStrategy{
         String ancestralidade = rs.getString("ancestralidade");
         String classe = rs.getString("classe");
         String dinheiro = rs.getString("dinheiro");
-        List<Integer> statusesId = Arrays.stream(rs.getString("statusesId").replaceAll("[\\[\\]]", "").split(","))
+        List<Integer> statusesId = Arrays.stream(rs.getString("statusesId").replaceAll(" ","").replaceAll("[\\[\\]]", "").split(","))
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
-        List<Integer> equipamentosId = Arrays.stream(rs.getString("equipamentosId").replaceAll("[\\[\\]]", "").split(","))
+        List<Integer> equipamentosId = Arrays.stream(rs.getString("equipamentosId").replaceAll(" ","").replaceAll("[\\[\\]]", "").split(","))
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
-        List<Integer> itensId = Arrays.stream(rs.getString("itensId").replaceAll("[\\[\\]]", "").split(","))
+        List<Integer> itensId = Arrays.stream(rs.getString("itensId").replaceAll(" ","").replaceAll("[\\[\\]]", "").split(","))
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
-        List<Integer> talentosId = Arrays.stream(rs.getString("talentosId").replaceAll("[\\[\\]]", "").split(","))
+        List<Integer> talentosId = Arrays.stream(rs.getString("talentosId").replaceAll(" ","").replaceAll("[\\[\\]]", "").split(","))
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
 

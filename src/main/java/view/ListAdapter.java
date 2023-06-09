@@ -136,15 +136,23 @@ public class ListAdapter extends AbstractTableModel {
     }
 
     public JTable criaListaPersonagem() {
-        String[] columnNames = {"id", "nome", "criador", "partida"};
-        Object[][] data = new Object[this.list.size()][4];
+        String[] columnNames = {"id","criador","nome","partida","ancestralidade","classe","dinheiro","statusesId","equipamentosId","itensId","talentosId"};
+        Object[][] data = new Object[this.list.size()][11];
         int row = 0;
         for (Map.Entry<Integer, ?> entry : this.list.entrySet()) {
             Personagem personagem = (Personagem) entry.getValue();
             data[row][0] = personagem.getId();
-            data[row][1] = personagem.getNome();
-            data[row][2] = personagem.getCriador();
+            data[row][1] = personagem.getCriador();
+            data[row][2] = personagem.getNome();
             data[row][3] = personagem.getPartida();
+            data[row][4] = personagem.getAncestralidade();
+            data[row][5] = personagem.getClasse();
+            data[row][6] = personagem.getDinheiro();
+            data[row][7] = personagem.getStatusesId();
+            data[row][8] = personagem.getEquipamentosId();
+            data[row][9] = personagem.getItensId();
+            data[row][10] = personagem.getTalentosId();
+
             row++;
         }
         this.table = new JTable(data, columnNames);
